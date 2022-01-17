@@ -1,0 +1,30 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.header-spacer {
+  flex: 1 1 auto
+}
+
+.header-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.header-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.header-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+mat-sidenav {
+  color: brown;
+  width: 500px;
+  height: 800px;
+}

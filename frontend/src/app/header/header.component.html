@@ -1,0 +1,14 @@
+
+  <mat-toolbar color="primary" class="header-toolbar">
+    <button mat-icon-button (click)="open = !open"><mat-icon>menu</mat-icon></button>
+    <img alt="logo" [src]="logoPath" width="100" height="60">
+    <span>Paper plane travel</span>
+    <span class="header-spacer"></span>
+    <div>
+      Login
+      <button mat-icon-button aria-label="header icon-button with heart icon">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <app-sidemenu *ngIf="open"></app-sidemenu>
