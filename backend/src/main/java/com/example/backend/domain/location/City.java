@@ -17,7 +17,7 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,6 +25,9 @@ public class City {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @OneToMany
+    private Set<Landmark> landmarks;
 
     @OneToMany
     private Set<File> gallery;

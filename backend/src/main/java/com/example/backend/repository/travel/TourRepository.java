@@ -1,4 +1,4 @@
-package com.example.backend.repository;
+package com.example.backend.repository.travel;
 
 import com.example.backend.domain.travel.Tour;
 import org.springframework.data.jpa.repository.JpaRepository;

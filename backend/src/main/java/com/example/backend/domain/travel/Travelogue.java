@@ -1,6 +1,7 @@
 package com.example.backend.domain.travel;
 
 import com.example.backend.domain.location.City;
+import com.example.backend.domain.person.Agent;
 import com.example.backend.domain.utils.File;
 
 import javax.persistence.*;
@@ -23,6 +24,10 @@ public class Travelogue {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "agent_umcn")
+    private Agent agent;
 
     @OneToMany
     private Set<File> gallery;

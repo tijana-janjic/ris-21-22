@@ -1,7 +1,7 @@
 package com.example.backend.domain.utils;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -15,12 +15,12 @@ public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "alttext", nullable = false)
+    @Column(name = "alt_text", nullable = false)
     private String altText;
 
     @Lob

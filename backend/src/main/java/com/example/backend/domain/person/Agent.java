@@ -15,13 +15,13 @@ import javax.persistence.*;
 @Table(name = "agent")
 public class Agent extends Person{
 
-    @Column(name = "fixedSalary", nullable = false)
+    @Column(name = "fixed_salary", nullable = false)
     private Double fixedSalary;
 
-    @Column(name = "bonusPerTour", nullable = false)
+    @Column(name = "bonus_per_tour", nullable = false)
     private Double bonusPerTour;
 
-    @Column(name = "bonusPerTravelogue", nullable = false)
+    @Column(name = "bonus_per_travelogue", nullable = false)
     private Double bonusPerTravelogue;
 
     @ManyToOne

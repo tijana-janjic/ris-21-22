@@ -1,10 +1,11 @@
 package com.example.backend.service;
 
+import com.example.backend.domain.travel.CityTour;
 import com.example.backend.domain.travel.Tour;
-import com.example.backend.repository.TourRepository;
+import com.example.backend.repository.travel.CityTourRepository;
+import com.example.backend.repository.travel.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,13 +13,28 @@ import java.util.Set;
 @Service
 public class TourService {
 
-    @Autowired
-    TourRepository tourRepository;
+    private final TourRepository tourRepository;
+    private final CityTourRepository cityTourRepository;
 
-    @GetMapping
+    @Autowired
+    public TourService(TourRepository tourRepository, CityTourRepository cityTourRepository){
+        this.tourRepository = tourRepository;
+        this.cityTourRepository = cityTourRepository;
+    }
+
     public Set<Tour> getAllTours() {
-        Set<Tour> set = new HashSet<>(tourRepository.findAll());
-        System.out.println("ss "+set);
-        return set;
+        return new HashSet<>(tourRepository.findAll());
+    }
+
+    public Set<CityTour> getAllCityTours() {
+        return new HashSet<>(cityTourRepository.findAll());
+    }
+
+    public Tour addNewTour(Tour tour) {
+        return tourRepository.save(tour);
+    }
+
+    public CityTour addNewCityTour(CityTour cityTour) {
+        return cityTourRepository.save(cityTour);
     }
 }

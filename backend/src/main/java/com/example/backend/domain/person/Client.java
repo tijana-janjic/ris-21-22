@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -17,12 +15,12 @@ import javax.persistence.Table;
 @Table(name = "client")
 public class Client extends Person {
 
-    @ManyToOne
-    @JoinColumn(name = "reserved_id")
-    private Tour reserved;
+    @ManyToMany
+    @JoinTable(
+            name = "reservations",
+            joinColumns = @JoinColumn(name = "client_umcn"),
+            inverseJoinColumns = @JoinColumn(name = "tour_id"))
+    private Set<Tour> reserved;
 
-    @ManyToOne
-    @JoinColumn(name = "previous_trips_id")
-    private Tour previousTrips;
 
 }

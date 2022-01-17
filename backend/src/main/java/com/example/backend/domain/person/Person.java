@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class Person {
     // Unique Master Citizen Number - umcn - jmbg
     @Id
-    @Column(name = "umcn", nullable = false)
+    @Column(name = "umcn", nullable = false, length = 13)
     private String umcn;
 
     @Column(name = "name", nullable = false)
@@ -27,6 +27,7 @@ public class Person {
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
 }

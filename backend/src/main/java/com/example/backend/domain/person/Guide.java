@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @NoArgsConstructor
 @Getter
@@ -14,13 +15,13 @@ import javax.persistence.*;
 @Table(name = "guide")
 public class Guide extends Person {
 
-    @Column(name = "fixedSalary", nullable = false)
+    @Column(name = "fixed_salary", nullable = false)
     private Double fixedSalary;
 
-    @Column(name = "percentagePerTour", nullable = false)
+    @Column(name = "percentage_per_tour", nullable = false)
     private Double percentagePerTour;
 
-    @ManyToOne
-    @JoinColumn(name = "guided_trips_id")
-    private Tour guidedTrips;
+    @OneToMany(mappedBy = "guide")
+    private Collection<Tour> tours;
+
 }

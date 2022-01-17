@@ -1,4 +1,4 @@
-package com.example.backend.domain.travel;
+package com.example.backend.domain.location;
 
 import com.example.backend.domain.location.City;
 import com.example.backend.domain.utils.File;
@@ -23,11 +23,14 @@ public class Landmark {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "enterance_price", nullable = false)
+    private Double enterancePrice;
+
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
     @OneToMany
     private Set<File> gallery;
-    
+
 }
