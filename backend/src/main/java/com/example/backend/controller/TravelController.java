@@ -8,13 +8,25 @@ import com.example.backend.mappers.TourMapper;
 import com.example.backend.service.LocationService;
 import com.example.backend.service.PersonService;
 import com.example.backend.service.TourService;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -51,5 +63,33 @@ public class TravelController {
         CityTour cityTour = tourService.addNewCityTour(tourMapper.dtoToCityTour(cityTourDto));
         return new ResponseEntity<>(cityTour.getId(), HttpStatus.CREATED);
     }
+
+    @GetMapping("/toursReport.pdf")
+    public ResponseEntity<byte[]> showReport() throws Exception{
+
+        // dobavljanje podataka, postavljanje vrijednosti parametar, kompajliranje
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getAllTours());
+        InputStream inputStream = this.getClass().getResourceAsStream("/reports/tours.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("agencyName", "Paper plane travel");
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+        assert inputStream != null;
+        inputStream.close();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("toursReport.pdf", "toursReport.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(JasperExportManager.exportReportToPdf(jasperPrint));
+    }
+
 
 }

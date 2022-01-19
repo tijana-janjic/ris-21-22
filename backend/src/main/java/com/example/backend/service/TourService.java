@@ -4,10 +4,16 @@ import com.example.backend.domain.travel.CityTour;
 import com.example.backend.domain.travel.Tour;
 import com.example.backend.repository.travel.CityTourRepository;
 import com.example.backend.repository.travel.TourRepository;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -36,5 +42,9 @@ public class TourService {
 
     public CityTour addNewCityTour(CityTour cityTour) {
         return cityTourRepository.save(cityTour);
+    }
+
+    public void downloadReport(){
+
     }
 }
