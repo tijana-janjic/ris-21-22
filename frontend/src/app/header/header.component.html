@@ -1,14 +1,40 @@
+<mat-toolbar color="primary" class="header-toolbar">
 
-  <mat-toolbar color="primary" class="header-toolbar">
-    <button mat-icon-button (click)="open = !open"><mat-icon>menu</mat-icon></button>
-    <img alt="logo" [src]="logoPath" width="100" height="60">
-    <span>Paper plane travel</span>
-    <span class="header-spacer"></span>
-    <div>
-      Login
-      <button mat-icon-button aria-label="header icon-button with heart icon">
-        <mat-icon>account_circle</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
-  <app-sidemenu *ngIf="open"></app-sidemenu>
+  <img alt="logo" [src]="logoPath" width="100" height="60">
+
+  <span class="header-spacer">Paper plane travel
+
+    <span class="menu-buttons">
+      <button mat-button [matMenuTriggerFor]="aboveMenu">Trips</button>
+      <mat-menu #aboveMenu="matMenu" yPosition="above">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="belowMenu">Create trip</button>
+      <mat-menu #belowMenu="matMenu" yPosition="below">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="beforeMenu">Travelogue</button>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="afterMenu">After</button>
+      <mat-menu #afterMenu="matMenu" xPosition="after">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
+    </span>
+  </span>
+
+  <div>
+    Login
+    <button mat-icon-button aria-label="header icon-button with heart icon">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

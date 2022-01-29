@@ -3,6 +3,9 @@
 .header-spacer {
   flex: 1 1 auto
 }
+.menu-buttons{
+  padding-left: 100px;
+}
 
 .header-label {
   display: table-cell;
@@ -23,8 +26,14 @@
   width: 120px;
 }
 
+manu-button {
+  color: transparent;
+  background-color: transparent;
+}
+
 mat-sidenav {
   color: brown;
   width: 500px;
   height: 800px;
 }
+

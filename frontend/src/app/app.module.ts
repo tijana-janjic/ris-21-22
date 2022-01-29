@@ -11,14 +11,17 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {RouterModule} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
-import { SidemenuComponent } from './sidemenu/sidemenu.component';
 import {MatTreeModule} from "@angular/material/tree";
+import { TripListComponent } from './trip-list/trip-list.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SidemenuComponent
+    TripListComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import {MatTreeModule} from "@angular/material/tree";
     MatListModule,
     RouterModule,
     MatMenuModule,
-    MatTreeModule
+    MatTreeModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
