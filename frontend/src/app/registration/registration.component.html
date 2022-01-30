@@ -1,0 +1,46 @@
+<div class="container">
+  <form class="example-form">
+    <mat-form-field appearance="standard">
+      <mat-label>Enter your name</mat-label>
+      <input matInput placeholder="Pam"  required>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="standard">
+      <mat-label>Enter your surname</mat-label>
+      <input matInput placeholder="Smith"  required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="standard">
+      <mat-label>Birthdate</mat-label>
+        <input matInput [matDatepicker]="$any(picker)" [matDatepickerFilter]="filterYounger">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker [startAt]="getMinDate()"></mat-datepicker>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="standard">
+      <mat-label>Telephone</mat-label>
+      <span matPrefix>+381 &nbsp;</span>
+      <input type="tel" matInput placeholder="64-123-4567">
+      <mat-icon matSuffix>mode_edit</mat-icon>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="standard">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="pam@example.com"  required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="standard">
+      <mat-label>Enter your password</mat-label>
+      <input matInput  type="password" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="standard">
+      <mat-label>Reenter your password</mat-label>
+      <input matInput type="password" required>
+    </mat-form-field>
+    <br><br><br>
+    <button mat-flat-button color="primary" class="confirm">
+      Confirm
+    </button>
+  </form>
+</div>

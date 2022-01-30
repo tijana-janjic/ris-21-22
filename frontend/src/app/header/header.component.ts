@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {HeaderService} from "../services/header.service";
 
 @Component({
   selector: 'app-header',
@@ -7,15 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  router = Router
   logoPath: string = "assets/images/paper-plane-logo.png"
   fillerContent = [1,2,3,4,5,6]
   tripTypes = ["summer",'winter','weekend','winter','weekend','winter','weekend','winter','weekend']
   open = false
-  constructor() { }
+
+  constructor(router: Router, public service: HeaderService ) { }
 
   ngOnInit(): void {
 
   }
 
-
+  getTourTypes() {
+    return this.service.getTourTypes()
+  }
 }

@@ -6,6 +6,9 @@
 .menu-buttons{
   padding-left: 100px;
 }
+.login-button {
+  padding-right: 30px;
+}
 
 .header-label {
   display: table-cell;
