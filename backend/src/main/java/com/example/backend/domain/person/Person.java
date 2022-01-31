@@ -30,4 +30,8 @@ public class Person {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
 }

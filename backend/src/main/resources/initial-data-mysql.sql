@@ -24,3 +24,5 @@ values (2, true, 2, 3);
 
 insert into tour (id, name, max_passengers, deadline, start_date, end_date, tour_type, transportation_type, price)
    values (1, 'France summer tour', 50, '2022-01-11 00:00:00', '2022-01-10 00:00:00','2022-01-15 00:00:00', 'WEEKEND', 'BUS', 200);
+
+insert into user (email, password) values ('pera@mail.com', 'pera')

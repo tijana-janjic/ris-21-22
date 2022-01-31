@@ -1,4 +1,4 @@
-package com.example.backend.domain.user;
+package com.example.backend.domain.auth;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,14 +10,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "role")
-public class Role {
+public class Permission {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
-
 }

@@ -34,4 +34,10 @@ public class PersonService {
     public Client getClientById(String id) {
         return clientRepository.getById(id);
     }
+
+    public Client getClientByEmail(String email) {
+        System.out.println("service: radi!");
+
+        return clientRepository.getByEmail(email);
+    }
 }
