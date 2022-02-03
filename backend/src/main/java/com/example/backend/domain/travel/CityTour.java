@@ -3,6 +3,7 @@ package com.example.backend.domain.travel;
 import com.example.backend.domain.location.City;
 import com.example.backend.domain.location.Hotel;
 import com.example.backend.domain.location.Landmark;
+import com.example.backend.domain.utils.File;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,9 +24,6 @@ public class CityTour {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "included", nullable = false)
-    private Boolean included;
-
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
@@ -37,5 +35,17 @@ public class CityTour {
     @ToString.Exclude
     @OneToMany
     private Set<Landmark> landmarks = new java.util.LinkedHashSet<>();
+
+    @ToString.Exclude
+    @OneToMany
+    private Set<Landmark> facultyLandmarks = new java.util.LinkedHashSet<>();
+
+    @ManyToMany
+    private Set<Tour> tours = new java.util.LinkedHashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "file_id", nullable = false)
+    private File coverImage;
+
 
 }

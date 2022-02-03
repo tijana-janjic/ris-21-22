@@ -1,0 +1,80 @@
+<div class="big-container">
+  <mat-card class="container">
+    <mat-stepper>
+
+      <mat-step>
+        <mat-card-title> Enter details about tour: </mat-card-title>
+        <br>
+        <form class="example-form">
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Enter name of tour</mat-label>
+            <input matInput placeholder="unique 13-digit number" [(ngModel)]="model.name" name="name"  required>
+          </mat-form-field>
+          <br>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Start date</mat-label>
+            <input matInput [matDatepicker]="$any(startDatePicker)" [matDatepickerFilter]="filterOlder"  [(ngModel)]="model.startDate" name="startDate" required>
+            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker [startAt]="getMinDate()"></mat-datepicker>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field appearance="outline">
+            <mat-label>End date</mat-label>
+            <input matInput [matDatepicker]="$any(endDatePicker)" [matDatepickerFilter]="filterOlder"  [(ngModel)]="model.endDate" name="endDate" required>
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker [startAt]="getMinDate()"></mat-datepicker>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field appearance="outline">
+            <mat-label>Deadline for application</mat-label>
+            <input matInput [matDatepicker]="$any(deadlinePicker)" [matDatepickerFilter]="filterOlder"  [(ngModel)]="model.deadline" name="deadline" required>
+            <mat-datepicker-toggle matSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
+            <mat-datepicker #deadlinePicker [startAt]="getMinDate()"></mat-datepicker>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>Select tour type</mat-label>
+            <mat-select [(ngModel)]="model.tourType"  name="tourType" required>
+              <mat-option value="Summer">Summer</mat-option>
+              <mat-option value="Winter">Winter</mat-option>
+              <mat-option value="Weekend">Weekend</mat-option>
+              <mat-option value="Adventure">Adventure</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field appearance="outline">
+            <mat-label>Select type of transport</mat-label>
+            <mat-select [(ngModel)]="model.transportationType"  name="tourType" required>
+              <mat-option value="Bus">Bus</mat-option>
+              <mat-option value="Avio">Avio</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;&nbsp;
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" class="example-right-align" placeholder="0" name="price" min="1" [(ngModel)]="model.price" required>
+            <span matPrefix>$&nbsp;</span>
+            <span matSuffix>.00</span>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput resizeToFitContent></textarea>
+          </mat-form-field>
+          <br>
+        </form>
+
+      </mat-step>
+      <mat-step>
+
+        <mat-card-title> Select city tours: </mat-card-title>
+
+      </mat-step>
+
+    </mat-stepper>
+
+  </mat-card>
+</div>

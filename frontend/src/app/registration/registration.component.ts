@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DateFilterFn } from '@angular/material/datepicker';
+import {Account} from "../model/account";
 
 @Component({
   selector: 'app-registration',
@@ -8,6 +9,18 @@ import { DateFilterFn } from '@angular/material/datepicker';
 })
 export class RegistrationComponent implements OnInit {
 
+  model: Account = {
+    umcn : '',
+    name : '',
+    surname : '',
+    gender : '',
+    birthdate : '',
+    email : '',
+    password : '',
+    phoneNumber : ''
+  }
+
+  password2 : string = ''
 
   constructor() { }
 

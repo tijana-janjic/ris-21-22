@@ -1,0 +1,105 @@
+<mat-spinner *ngIf="cityTours==null"></mat-spinner>
+<mat-dialog-content *ngIf="cityTours!=null">
+  <mat-accordion>
+    <br>
+    <h1> {{this.tour.name}} </h1>
+    <br>
+
+    <!-- Obilasci -->
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Details
+        </mat-panel-title>
+        <mat-panel-description>
+          Details about tour
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <p> {{tour.description}} </p>
+      <br>
+      <h4> Tour type: {{tour.tourType}} </h4>
+      <h4> Transportation type: {{tour.transportationType}} </h4>
+
+      <br>
+      <h2> Price: {{tour.price}} $ </h2>
+
+      <br>
+      <br>
+
+    </mat-expansion-panel>
+
+    <!-- Datumi -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Important dates
+        </mat-panel-title>
+        <mat-panel-description>
+          This is a summary of the content
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <br>
+      <p> Starting date: {{tour.startDate}} </p>
+      <p> Ending date: {{tour.startDate}} </p> <br>
+      <p> Deadline for reservation: {{tour.startDate}} </p>
+      <br>
+    </mat-expansion-panel>
+
+    <!-- Obilasci -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          City tours
+        </mat-panel-title>
+        <mat-panel-description>
+          Details about city tours
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+      <div class="scroll">
+        <br>
+        <div *ngFor="let tour of this.cityTours">
+          <mat-card class="card" >
+
+            <mat-card-header>
+              <mat-card-title>{{tour.city.name}}</mat-card-title>
+              <mat-card-subtitle>{{tour.city.country.name}}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <!--img typeof="file" src="{{get64base(cityTour.coverImage.data)}}" alt="{{cityTour.coverImage.altText}}"-->
+              <div class="wrapper">
+                <div id="one">
+                  <img src="data:image/jpeg;base64,{{tour.coverImage!.data}}"
+                       alt="{{tour.coverImage!.altText}}" >
+                </div>
+
+                <div id="two">
+                  <h3>Accommodation: </h3>
+                  <h5> {{(tour.hotel !== null ? (tour.hotel.name+' ('+tour.hotel.stars+' stars)'  ) : "none")}} </h5>
+                  <br><br>
+                  <h3>Included visits: </h3>
+                  <h5 *ngFor="let landmark of tour.landmarks.values()">
+                    {{landmark.name}}
+                  </h5>
+                </div>
+              </div>
+
+            </mat-card-content>
+
+          </mat-card>
+          <br>
+        </div>
+        <br>
+      </div>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+  <br><br>
+  <button mat-raised-button color="primary">Reserve</button>
+  <br><br>
+</mat-dialog-content>

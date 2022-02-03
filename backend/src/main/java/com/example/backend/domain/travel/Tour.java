@@ -3,6 +3,7 @@ package com.example.backend.domain.travel;
 import com.example.backend.domain.person.Agent;
 import com.example.backend.domain.person.Client;
 import com.example.backend.domain.person.Guide;
+import com.example.backend.domain.utils.File;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,10 @@ public class Tour {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Lob
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "start_date", nullable = false)
@@ -61,6 +66,10 @@ public class Tour {
     private Guide guide;
 
     @ManyToOne
+    @JoinColumn(name = "file_id", nullable = false)
+    private File coverImage;
+
+    @ManyToOne
     @JoinColumn(name = "agent_umcn")
     private Agent agent;
 
@@ -68,7 +77,11 @@ public class Tour {
     private Set<Client> client;
 
     @JsonIgnore
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "tours_city_tours",
+            joinColumns = @JoinColumn(name = "tour_id"),
+            inverseJoinColumns = @JoinColumn(name = "city_tour_id"))
     private Set<CityTour> cityTours;
 
 }

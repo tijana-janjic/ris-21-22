@@ -23,4 +23,8 @@ export class HeaderService {
     return this.tourTypes
   }
 
+  getAllTourTypes() {
+    return this.tourTypes
+  }
+
 }

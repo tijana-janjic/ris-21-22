@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TourService {
@@ -46,5 +43,9 @@ public class TourService {
 
     public void downloadReport(){
 
+    }
+
+    public Tour getTourById(Long id) {
+        return tourRepository.getById(id);
     }
 }

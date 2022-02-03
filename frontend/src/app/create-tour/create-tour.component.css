@@ -1,0 +1,27 @@
+.container {
+  padding: 4%;
+  display: flex;
+  justify-content: center;
+}
+
+.big-container {
+  padding: 5% 15%;
+  background-color: #d5d8dc;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.third-width {
+  width: 33%;
+}
+
+
+.confirm {
+  align-self: flex-end;
+}

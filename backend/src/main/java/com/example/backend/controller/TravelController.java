@@ -10,9 +10,6 @@ import com.example.backend.service.PersonService;
 import com.example.backend.service.TourService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,12 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/travel")
@@ -34,16 +31,25 @@ public class TravelController {
 
     private final TourService tourService;
     private final TourMapper tourMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TravelController(TourService tourService, LocationService locationService, PersonService personService, ModelMapper modelMapper) {
         this.tourService = tourService;
+        this.modelMapper = modelMapper;
         this.tourMapper = new TourMapper(locationService, personService, modelMapper);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/tours")
-    public Set<Tour> getAllTours(){
-        return new HashSet<>(tourService.getAllTours());
+    public Set<TourDto> getAllTours() {
+        return tourService.getAllTours().stream().map(tourMapper::tourToDto).collect(Collectors.toSet());
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/tour/city-tours")
+    public Set<CityTourDto> getCityToursByTourId(@RequestParam Long id) {
+        return tourService.getTourById(id).getCityTours().stream().map(x -> modelMapper.map(x, CityTourDto.class)).collect(Collectors.toSet());
     }
 
     @GetMapping("/city-tours")
@@ -51,6 +57,7 @@ public class TravelController {
         return new HashSet<>(tourService.getAllCityTours());
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/create-tour")
     public ResponseEntity<Long> addTour(@RequestBody TourDto tourDto){
         Tour tour = tourService.addNewTour(tourMapper.dtoToTour(tourDto));

@@ -1,0 +1,36 @@
+<div class="big-container">
+  <mat-card class="container">
+
+    <div *ngFor="let tour of tours">
+      <mat-card class="card" >
+
+        <mat-card-header>
+          <mat-card-title>{{tour.name}}</mat-card-title>
+          <mat-card-subtitle>{{tour.price}}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <!--img typeof="file" src="{{get64base(cityTour.coverImage.data)}}" alt="{{cityTour.coverImage.altText}}"-->
+          <div class="wrapper">
+            <div id="one">
+              <img src="data:image/jpeg;base64,{{tour.coverImage!.data}}"
+                   alt="{{tour.coverImage!.altText}}" >
+            </div>
+
+            <div id="two">
+              {{tour.description}}
+            </div>
+          </div>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button (click)="openTour(tour)" mat-flat-button>See more</button>
+        </mat-card-actions>
+
+      </mat-card>
+      <br>
+    </div>
+  </mat-card>
+</div>
+

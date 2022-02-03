@@ -24,7 +24,7 @@ public class File {
     private String altText;
 
     @Lob
-    @Column(name = "file")
+    @Column(name = "file", nullable = false)
     private byte[] data;
 
 }

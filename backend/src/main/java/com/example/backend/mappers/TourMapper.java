@@ -7,6 +7,7 @@ import com.example.backend.domain.person.Guide;
 import com.example.backend.domain.travel.CityTour;
 import com.example.backend.domain.travel.Tour;
 import com.example.backend.dto.CityTourDto;
+import com.example.backend.dto.LandmarkDto;
 import com.example.backend.dto.TourDto;
 import com.example.backend.service.LocationService;
 import com.example.backend.service.PersonService;
@@ -32,21 +33,24 @@ public class TourMapper {
         Tour tour = modelMapper.map(dto, Tour.class);
         Guide guide = personService.getGuideById(dto.getGuideId());
         tour.setGuide(guide);
-        tour.setCityTours(dto.getCityTours().stream().map(this::dtoToCityTour).collect(Collectors.toSet()));
+//        tour.setCityTours(dto.getCityTours().stream().map(this::dtoToCityTour).collect(Collectors.toSet()));
         return tour;
     }
 
     public CityTour dtoToCityTour(CityTourDto dto){
         CityTour cityTour = modelMapper.map(dto, CityTour.class);
-        City city = locationService.getCityById(dto.getCityId());
-        Hotel hotel = locationService.getHotelById(dto.getHotelId());
+        City city = locationService.getCityById(dto.getId());
+        Hotel hotel = locationService.getHotelById(dto.getHotel().getId());
         Set<Landmark> landmarks = new HashSet<>(
                 locationService.getLandmarksByIds(
-                        dto.getLandmarkIds().stream().toList()));
+                        dto.getLandmarks().stream().map(LandmarkDto::getId).toList()));
         cityTour.setCity(city);
         cityTour.setHotel(hotel);
-        cityTour.setIncluded(dto.getIncluded());
         cityTour.setLandmarks(landmarks);
         return cityTour;
+    }
+
+    public TourDto tourToDto(Tour tour){
+        return modelMapper.map(tour, TourDto.class );
     }
 }
