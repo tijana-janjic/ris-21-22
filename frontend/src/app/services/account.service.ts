@@ -3,6 +3,8 @@ import { Account } from "../model/account";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import {Router} from "@angular/router";
+import {MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -23,7 +25,7 @@ export class AccountService {
   private account: Account | null = null
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient, public router: Router, private snackBar: MatSnackBar
   ) { }
 
   login(email: string, password: string) {
@@ -35,6 +37,45 @@ export class AccountService {
 
   register() {
 
+  }
+
+  logout(){
+    return this.http.get(this.url + '/logout').subscribe(
+      () => {this.router.navigate(['/login'])},
+      (err) => {
+        this.snackBar.open(err.message, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar'],
+        });
+      }
+    )
+  }
+
+  isAgentUser(): boolean {
+    let role = this.getRoleCookie();
+    if (role && role === 'agent') {
+      return true;
+    }
+    return false;
+  }
+
+  isClientUser(): boolean {
+    let role = this.getRoleCookie();
+    if (role && role === 'admin') {
+      return true;
+    }
+    return false;
+  }
+
+  getRoleCookie(): string | null {
+    let cookies = document.cookie;
+    for (let cookie of cookies.split(';')) {
+      let cookieParts = cookie.trim().split('=');
+      if (cookieParts[0] === 'role') return cookieParts[1];
+    }
+    return null;
   }
 
   private handleError(error: HttpErrorResponse) : Observable<Account> {
