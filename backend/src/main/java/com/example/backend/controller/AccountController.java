@@ -50,24 +50,18 @@ public class AccountController {
         this.tokenUtils = tokenUtils;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @PostMapping("/login")
     public ResponseEntity login(
-            @RequestBody LoginRequestDto dto,
-            HttpServletResponse response){
-        System.out.println("login: pogodjen sam!");
+            @RequestBody LoginRequestDto dto, HttpServletResponse response){
 
+        System.out.println("login: pogodjen sam!");
         System.out.println("parametri: " + dto.getEmail() + ", " + dto.getPassword());
 
         User u = userService.findByEmail(dto.getEmail()).orElseThrow(() -> new BadCredentialsException("Wrong password!"));
 
-        System.out.println("u: " + u.getEmail());
-
-        System.out.println("encoded password: " + u.getEmail());
-
         UsernamePasswordAuthenticationToken temp = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
-        Authentication authentication = authenticationManager
-                .authenticate(temp);
+        Authentication authentication = authenticationManager.authenticate(temp);
 
         System.out.println("authentication:  " + u.getEmail());
 
@@ -75,12 +69,13 @@ public class AccountController {
         User user = myUserPrinciple.getUser();
         String token = tokenUtils.generateToken(user.getEmail());
         getCookies(user, token).forEach(response::addCookie);
-        System.out.println("token: " + u.getEmail());
+
+        System.out.println("token: " + token);
 
         return ResponseEntity.ok().build();
 
     }
-
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @GetMapping("/logout")
     public ResponseEntity logout(HttpServletResponse response) {
         getCookiesWithInvalidDates(response).forEach(response::addCookie);
@@ -108,14 +103,17 @@ public class AccountController {
         Set<Cookie> cookies = new HashSet<>();
 
         Cookie tokenCookie = new Cookie("token", token);
-        tokenCookie.setMaxAge(24 * 60 * 60);
+        tokenCookie.setMaxAge(24 * 60 * 60 * 1000);
+        tokenCookie.setDomain("localhost");
         tokenCookie.setPath("/");
         tokenCookie.setHttpOnly(true);
         cookies.add(tokenCookie);
 
         Cookie roleCookie = new Cookie("role", user.getRole().getName());
-        roleCookie.setMaxAge(24 * 60 * 60);
+        roleCookie.setMaxAge(24 * 60 * 60 * 1000);
+        roleCookie.setDomain("localhost");
         roleCookie.setPath("/");
+        roleCookie.setHttpOnly(false);
         cookies.add(roleCookie);
 
         return cookies;
@@ -127,12 +125,14 @@ public class AccountController {
         Cookie tokenCookie = new Cookie("token", null);
         tokenCookie.setMaxAge(0);
         tokenCookie.setPath("/");
+        tokenCookie.setDomain("localhost");
         tokenCookie.setHttpOnly(true);
         cookies.add(tokenCookie);
 
         Cookie roleCookie = new Cookie("role", null);
         roleCookie.setMaxAge(0);
         roleCookie.setPath("/");
+        roleCookie.setDomain("localhost");
         cookies.add(roleCookie);
 
         return cookies;

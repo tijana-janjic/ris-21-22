@@ -20,9 +20,9 @@ insert into landmark (id, name, city_id, enterance_price) values (2, 'Eiffel Tow
 INSERT INTO user_role(name) VALUES('agent');
 INSERT INTO user_role(name) VALUES('client');
 
-insert into user(email, password, role_id) values ('pera@mail.com', ' $2a$12$vzvp8zB6eTuLxPJMfgTcQOOUDRIaMd6KNoqeOIzLAAPszaQqQnMBS ', 1);
+select * from user_role;
 
-delete from user where id = 3;
+insert into user(email, password, role_id) values ('pera@mail.com', '$2a$12$vzvp8zB6eTuLxPJMfgTcQOOUDRIaMd6KNoqeOIzLAAPszaQqQnMBS', 1);
 
 insert into file (alt_text, file, description)
 VALUES ('paris1',

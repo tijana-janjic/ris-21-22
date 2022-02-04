@@ -21,12 +21,7 @@ public class TokenUtils {
     @Value("${jwt-secret}")
     public String SECRET;
 
-    private final int EXPIRES_IN = 24 * 60 * 60 * 1000;
-
-    @Value("Authorization")
-    private String AUTH_HEADER;
-
-    private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+    private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
     public String generateToken(String email) {
         return Jwts.builder()
@@ -38,10 +33,12 @@ public class TokenUtils {
     }
 
     private Date generateExpirationDate() {
+        int EXPIRES_IN = 24 * 60 * 60 * 1000;
         return new Date(new Date().getTime() + EXPIRES_IN);
     }
 
     public String getToken(HttpServletRequest request) {
+
         if(request.getCookies() == null){
             return null;
         }

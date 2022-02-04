@@ -22,7 +22,6 @@
         <button mat-menu-item>Item 2</button>
       </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="afterMenu">Gallery</button>
       <mat-menu #afterMenu="matMenu" xPosition="after">
         <button mat-menu-item>Item 1</button>
         <button mat-menu-item>Item 2</button>
@@ -33,10 +32,20 @@
   <!-- metod za provjeru login/profile -->
 
   <span class="login-button">
-    <button mat-button [routerLink]=" '/login' ">
+    <button mat-button [routerLink]=" '/login' " *ngIf="getRoleFromCookie() == null" >
       Login
       <mat-icon>account_circle</mat-icon>
     </button>
+    <div *ngIf="getRoleFromCookie() != null">
+    <button mat-button [routerLink]=" '/account' " >
+      Account
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <button mat-button (click)="logout()">
+      Logout
+    </button>
+      </div>
   </span>
 
 </mat-toolbar>

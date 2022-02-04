@@ -40,7 +40,7 @@ public class TravelController {
         this.tourMapper = new TourMapper(locationService, personService, modelMapper);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @GetMapping("/tours")
     public Set<TourDto> getAllTours() {
         return tourService.getAllTours().stream().map(tourMapper::tourToDto).collect(Collectors.toSet());

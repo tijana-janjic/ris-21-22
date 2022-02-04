@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.domain.auth.RoleRepository;
+import com.example.backend.repository.RoleRepository;
 import com.example.backend.domain.auth.User;
 import com.example.backend.domain.auth.UserRole;
 import com.example.backend.repository.UserRepository;

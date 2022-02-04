@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from "../services/account.service";
 import {Login} from "../model/login";
 import {AuthService} from "../services/auth.service";
-import {Router} from "@angular/router";
-
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,35 +15,29 @@ export class LoginComponent implements OnInit {
   }
   private error: string | undefined;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
   }
 
   login() {
     this.error = '';
-
-    if (this.model.email != null && this.model.password != null) {
-      this.error = '';
-
-      if (this.model.email != null && this.model.password != null) {
-        this.authService.login(this.model.email, this.model.password).subscribe(
-          () => {
-            if (this.authService.isAgentUser()) {
-              this.authService.router.navigate(['/home'])
-            } else {
-              this.authService.router.navigate(['/tours'])
-            }
-          },
-          (err) => {
-            if (err.status === 400) {
-              this.error = 'Wrong email or password';
-            }
+    if (this.model.email != '' && this.model.password != '') {
+      this.authService.login(this.model.email, this.model.password).subscribe(
+        (res) => {
+          console.log('logged in')
+          this.authService.router.navigate(['/home'])
+        },
+        (err) => {
+          if (err.status === 400) {
+            this.error = 'Wrong email or password';
           }
-        );
-      }
+        }
+      );
     }
   }
+
+
 
 
 }

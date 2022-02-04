@@ -1,6 +1,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from "ngx-cookie-service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+
+
+const httpOptions = {
+  headers: new HttpHeaders()
+}
+
+httpOptions.headers.append('Access-Control-Allow-Headers', '*');
+httpOptions.headers.append('Access-Control-Allow-Credentials', 'true');
+httpOptions.headers.append('Access-Control-Allow-Origin', '*');
+httpOptions.headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS, DELETE');
+httpOptions.headers.append('Content-Type', 'application/json');
+httpOptions.headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +26,11 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    public router: Router
+    public router: Router,
+    public snackBar: MatSnackBar
   ) {}
+
+
 
   login(email: string, password: string) {
     return this.http.post(
@@ -25,9 +44,16 @@ export class AuthService {
 
   logout(){
     return this.http.get(this.url + '/logout').subscribe(
-      () => {this.router.navigate(['/login'])},
+      () => {
+        this.router.navigate(['/login'])
+      },
       (err) => {
-        console.log("Login error")
+        this.snackBar.open(err.message, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar'],
+        });
       }
     )
   }

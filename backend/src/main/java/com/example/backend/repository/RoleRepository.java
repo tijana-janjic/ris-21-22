@@ -1,5 +1,6 @@
-package com.example.backend.domain.auth;
+package com.example.backend.repository;
 
+import com.example.backend.domain.auth.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

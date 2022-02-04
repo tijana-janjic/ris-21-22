@@ -21,7 +21,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = tokenUtils.getToken(request);
 
+        if (token == null)
+            System.err.println("token je null! ");
         if (token != null && tokenUtils.isTokenValid(token)) {
+
             String email = tokenUtils.getEmailFromToken(token);
 
             if (email != null) {
@@ -29,8 +32,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setToken(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            System.err.println("poslao: " + email);
         }
-
+        System.err.println("token nije validan! ");
         chain.doFilter(request, response);
     }
 }

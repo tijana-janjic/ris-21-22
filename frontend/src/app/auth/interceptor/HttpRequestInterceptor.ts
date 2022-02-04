@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule  } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,10 +19,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log("intercept....\n"+ JSON.stringify(request))
     request = request.clone({
       withCredentials: true,
     });
 
+    console.log("intercept....\n" + JSON.stringify(request))
     return next
       .handle(request)
       .pipe(catchError((err) => this.handleError(err)));
