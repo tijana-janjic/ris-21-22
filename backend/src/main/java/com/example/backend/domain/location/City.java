@@ -29,6 +29,4 @@ public class City {
     @OneToMany
     private Set<Landmark> landmarks;
 
-    @OneToMany
-    private Set<File> gallery;
 }

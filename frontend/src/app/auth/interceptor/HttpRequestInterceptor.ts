@@ -19,12 +19,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log("intercept....\n"+ JSON.stringify(request))
     request = request.clone({
       withCredentials: true,
     });
 
-    console.log("intercept....\n" + JSON.stringify(request))
     return next
       .handle(request)
       .pipe(catchError((err) => this.handleError(err)));

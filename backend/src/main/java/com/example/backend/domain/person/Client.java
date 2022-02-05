@@ -18,7 +18,7 @@ public class Client extends Person {
     @ManyToMany
     @JoinTable(
             name = "reservations",
-            joinColumns = @JoinColumn(name = "client_umcn"),
+            joinColumns = @JoinColumn(name = "client_email"),
             inverseJoinColumns = @JoinColumn(name = "tour_id"))
     private Set<Tour> reserved;
 

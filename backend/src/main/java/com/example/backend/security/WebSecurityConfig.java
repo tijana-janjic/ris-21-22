@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().anyRequest().permitAll()
                 .and().exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().cors()
-                //.and().addFilterBefore(new TokenAuthenticationFilter(tokenUtils), BasicAuthenticationFilter.class)
+                .and().addFilterBefore(new TokenAuthenticationFilter(tokenUtils), BasicAuthenticationFilter.class)
         ;
         http.csrf().disable();
     }

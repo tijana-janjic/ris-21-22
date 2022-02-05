@@ -26,8 +26,7 @@ public class TourDto implements Serializable {
     private Integer maxPassengers;
     private TransportationType transportationType;
     private TourType tourType;
-    private String guideId;
-    private String agentId;
+    private String guideEmail;
+    private String agentEmail;
     private FileDto coverImage;
-    //private Set<CityTourDto> cityTours;
 }

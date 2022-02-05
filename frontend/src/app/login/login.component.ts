@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Login} from "../model/login";
 import {AuthService} from "../services/auth.service";
 import { CookieService } from 'ngx-cookie-service';
+import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   model : Login = {
     email : '',
@@ -15,15 +17,32 @@ export class LoginComponent implements OnInit {
   }
   private error: string | undefined;
 
-  constructor(private authService: AuthService, private cookieService: CookieService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cookieService: CookieService) { }
 
   ngOnInit(): void {
+  }
+
+  subscriptions : Subscription[] = [];
+
+  ngOnDestroy(): void {
+    console.log('gasim se...')
+    const u = this.subscriptions.length
+    let i = 0
+    for (const x of this.subscriptions) {
+      if (!x.closed)
+        i = i + 1
+      x.unsubscribe();
+    }
+    console.log('ukupno...' + u + ' ugasio sam '+ i)
   }
 
   login() {
     this.error = '';
     if (this.model.email != '' && this.model.password != '') {
-      this.authService.login(this.model.email, this.model.password).subscribe(
+      this.subscriptions.push(this.authService.login(this.model.email, this.model.password).subscribe(
         (res) => {
           console.log('logged in')
           this.authService.router.navigate(['/home'])
@@ -33,7 +52,7 @@ export class LoginComponent implements OnInit {
             this.error = 'Wrong email or password';
           }
         }
-      );
+      ))
     }
   }
 

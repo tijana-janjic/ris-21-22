@@ -29,15 +29,16 @@ import { CreateTourComponent } from './create-tour/create-tour.component';
 import { MatStepperModule } from "@angular/material/stepper";
 import { ToursComponent } from './tours/tours.component';
 import { MatCardModule } from "@angular/material/card";
-import { CityTourDialogComponent } from './city-tour-dialog/city-tour-dialog.component';
-import { TourDialogComponent } from './tour-dialog/tour-dialog.component';
+import { TourDialogComponent } from './tours/tour-dialog/tour-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {HttpRequestInterceptor} from "./auth/interceptor/HttpRequestInterceptor";
-import {AgentGuard} from "./auth/agent-guard/AgentGuard.guard";
-import {ClientGuard} from "./auth/client-guard/client.guard";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { HttpRequestInterceptor } from "./auth/interceptor/HttpRequestInterceptor";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { TraveloguesComponent } from './travelogues/travelogues.component';
+import { AccountComponent } from './account/account.component';
+import { TravelogueDialogComponent } from './travelogues/travelogue-dialog/travelogue-dialog.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -48,8 +49,10 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     RegistrationComponent,
     CreateTourComponent,
     ToursComponent,
-    CityTourDialogComponent,
-    TourDialogComponent
+    TourDialogComponent,
+    TraveloguesComponent,
+    AccountComponent,
+    TravelogueDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatDialogModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCheckboxModule
   ],
   providers: [
      { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true }

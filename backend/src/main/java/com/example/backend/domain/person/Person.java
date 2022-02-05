@@ -1,6 +1,7 @@
 package com.example.backend.domain.person;
 
 import com.example.backend.domain.utils.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,10 +14,9 @@ import java.time.LocalDate;
 @Setter
 @MappedSuperclass
 public class Person {
-    // Unique Master Citizen Number - umcn - jmbg
     @Id
-    @Column(name = "umcn", nullable = false, length = 13)
-    private String umcn;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -31,7 +31,7 @@ public class Person {
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
 }

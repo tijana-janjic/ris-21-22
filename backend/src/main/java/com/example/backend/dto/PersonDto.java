@@ -7,18 +7,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @Setter
 @Getter
 @Data
-public class ClientDto implements Serializable {
-    private String umcn;
+public class PersonDto implements Serializable {
     private String name;
     private String surname;
-    private LocalDate birthdate;
+    private String birthdate;
     private Gender gender;
+    private String phoneNumber;
     private String email;
     private String password;
 }

@@ -34,8 +34,6 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers",
                 "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, remember-me");
 
-        System.err.println("postavljeni cors filteri" + response.getHeaderNames());
-
         chain.doFilter(req, res);
     }
 

@@ -34,7 +34,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
             System.err.println("poslao: " + email);
         }
-        System.err.println("token nije validan! ");
+        System.err.println("token je validan! ");
         chain.doFilter(request, response);
     }
 }

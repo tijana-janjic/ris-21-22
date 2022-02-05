@@ -30,7 +30,4 @@ public class Landmark {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
-    @OneToMany
-    private Set<File> gallery;
-
 }

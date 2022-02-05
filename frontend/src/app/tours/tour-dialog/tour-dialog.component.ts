@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {CityTour} from "../model/city-tour";
-import {Tour} from "../model/tour";
+import {CityTour} from "../../model/city-tour";
+import {Tour} from "../../model/tour";
 import {DomSanitizer} from "@angular/platform-browser";
-import {TourService} from "../services/tour.service";
+import {TourService} from "../../services/tour.service";
 
 export interface DialogData {
   tour: Tour;

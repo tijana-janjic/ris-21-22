@@ -4,10 +4,6 @@
     <mat-card-content>
       <br><br>
       <form class="example-form">
-        <mat-form-field appearance="standard">
-          <mat-label>Enter jmbg</mat-label>
-          <input matInput placeholder="unique 13-digit number" [(ngModel)]="model.umcn" name="umcn"  required>
-        </mat-form-field>
         <br>
         <mat-form-field appearance="standard">
           <mat-label>Enter your name</mat-label>
@@ -58,7 +54,9 @@
           <input matInput type="password"   [(ngModel)]="password2"  name="password2" required >
         </mat-form-field>
         <br><br><br>
-        <button mat-flat-button color="primary" class="confirm">
+
+        {{model.gender}}
+        <button mat-flat-button color="primary" class="confirm" (click)="register()">
           Confirm
         </button>
       </form>

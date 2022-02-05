@@ -2,26 +2,26 @@ package com.example.backend.service;
 
 import com.example.backend.domain.travel.CityTour;
 import com.example.backend.domain.travel.Tour;
+import com.example.backend.domain.travel.Travelogue;
+import com.example.backend.repository.TravelogueRepository;
 import com.example.backend.repository.travel.CityTourRepository;
 import com.example.backend.repository.travel.TourRepository;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.*;
 
 @Service
 public class TourService {
 
     private final TourRepository tourRepository;
+    private final TravelogueRepository travelogueRepository;
     private final CityTourRepository cityTourRepository;
 
     @Autowired
-    public TourService(TourRepository tourRepository, CityTourRepository cityTourRepository){
+    public TourService(TourRepository tourRepository, TravelogueRepository travelogueRepository, CityTourRepository cityTourRepository){
         this.tourRepository = tourRepository;
+        this.travelogueRepository = travelogueRepository;
         this.cityTourRepository = cityTourRepository;
     }
 
@@ -47,5 +47,13 @@ public class TourService {
 
     public Tour getTourById(Long id) {
         return tourRepository.getById(id);
+    }
+
+    public List<Travelogue> getAllTravelogues() {
+        return travelogueRepository.findAll();
+    }
+
+    public List<CityTour> findAllCityToursByIds(Set<Long> cityTours) {
+        return cityTourRepository.findAllById(cityTours);
     }
 }

@@ -28,7 +28,4 @@ public class Hotel {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
-
-    @OneToMany
-    private Set<File> gallery;
 }

@@ -16,5 +16,4 @@ public class CityDto implements Serializable {
     private Long id;
     private String name;
     private CountryDto country;
-    private Set<FileDto> gallery;
 }

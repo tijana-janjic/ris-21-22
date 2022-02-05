@@ -21,7 +21,4 @@ public class Guide extends Person {
     @Column(name = "percentage_per_tour", nullable = false)
     private Double percentagePerTour;
 
-    @OneToMany(mappedBy = "guide")
-    private Collection<Tour> tours;
-
 }

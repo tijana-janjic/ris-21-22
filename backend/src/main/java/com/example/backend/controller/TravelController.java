@@ -1,7 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.domain.travel.CityTour;
-import com.example.backend.domain.travel.Tour;
+import com.example.backend.domain.travel.*;
+import com.example.backend.dto.NewTourDto;
+import com.example.backend.dto.TravelogueDto;
 import com.example.backend.dto.CityTourDto;
 import com.example.backend.dto.TourDto;
 import com.example.backend.mappers.TourMapper;
@@ -19,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,7 +35,17 @@ public class TravelController {
     public TravelController(TourService tourService, LocationService locationService, PersonService personService, ModelMapper modelMapper) {
         this.tourService = tourService;
         this.modelMapper = modelMapper;
-        this.tourMapper = new TourMapper(locationService, personService, modelMapper);
+        this.tourMapper = new TourMapper(locationService, personService, tourService, modelMapper);
+    }
+
+
+
+
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+    @GetMapping("/tourtypes")
+    public List<String> getAllTourTypes() {
+        return Arrays.stream(TourType.values())
+                .map(Enum::toString).toList();
     }
 
     @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -46,23 +54,39 @@ public class TravelController {
         return tourService.getAllTours().stream().map(tourMapper::tourToDto).collect(Collectors.toSet());
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+    @GetMapping("/travelogues")
+    public Set<TravelogueDto> getAllTravelogues() { // prepraviti tipove
+        List<Travelogue> set = tourService.getAllTravelogues();
+        return set.stream().map(tourMapper::travelogueToDto).collect(Collectors.toSet());
+    }
+
+
+
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @GetMapping("/tour/city-tours")
     public Set<CityTourDto> getCityToursByTourId(@RequestParam Long id) {
         return tourService.getTourById(id).getCityTours().stream().map(x -> modelMapper.map(x, CityTourDto.class)).collect(Collectors.toSet());
     }
 
     @GetMapping("/city-tours")
-    public Set<CityTour> getAllCityTours(){
-        return new HashSet<>(tourService.getAllCityTours());
+    public Set<CityTourDto> getAllCityTours(){
+        return tourService.getAllCityTours().stream().map(x -> modelMapper.map(x, CityTourDto.class)).collect(Collectors.toSet());
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @PostMapping("/create-tour")
-    public ResponseEntity<Long> addTour(@RequestBody TourDto tourDto){
+    public ResponseEntity<Long> addTour(@RequestBody NewTourDto tourDto){
         Tour tour = tourService.addNewTour(tourMapper.dtoToTour(tourDto));
+
         return new ResponseEntity<>(tour.getId(), HttpStatus.CREATED);
     }
+
+
+
+
+
+
 
     @PostMapping("/create-city-tour")
     public ResponseEntity<Long> addCityTour(@RequestBody CityTourDto cityTourDto){

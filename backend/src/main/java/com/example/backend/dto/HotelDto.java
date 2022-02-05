@@ -17,5 +17,4 @@ public class HotelDto implements Serializable {
     private String name;
     private Integer stars;
     private Long cityId;
-    private Set<FileDto> gallery;
 }

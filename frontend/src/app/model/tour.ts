@@ -12,9 +12,8 @@ export interface Tour {
   maxPassengers : number
   transportationType : string
   tourType : string
-  guideId : number
-  agentId : number
+  guideEmail : number
+  agentEmail : number
   description: string
-  //cityTours: CityTour[]
   coverImage: FileDescription | null
 }

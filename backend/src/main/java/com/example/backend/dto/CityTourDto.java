@@ -15,9 +15,9 @@ import java.util.Set;
 @Data
 public class CityTourDto implements Serializable {
     private Long id;
+    private String name;
     private CityDto city;
     private HotelDto hotel;
     private Set<LandmarkDto> landmarks;
-    private Set<LandmarkDto> facultyLandmarks;
     private FileDto coverImage;
 }

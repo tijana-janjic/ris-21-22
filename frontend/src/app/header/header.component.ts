@@ -1,28 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HeaderService} from "../services/header.service";
 import { AuthService } from 'src/app/services/auth.service';
 import {CookieService} from "ngx-cookie-service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  router = Router
   logoPath: string = "assets/images/paper-plane-logo.png"
   fillerContent = [1,2,3,4,5,6]
-  tripTypes = ["summer",'winter','weekend','winter','weekend','winter','weekend','winter','weekend']
+  tripTypes = ["summer",'winter','weekend']
   open = false
 
-  constructor(router: Router,
+  constructor(
+              private router: Router,
               public service: HeaderService,
               private authService: AuthService) { }
 
   ngOnInit(): void {
 
+  }
+
+  subscriptions : Subscription[] = [];
+
+  ngOnDestroy(): void {
+    console.log('gasim se...')
+    const u = this.subscriptions.length
+    let i = 0
+    for (const x of this.subscriptions) {
+      if (!x.closed)
+        i = i + 1
+      x.unsubscribe();
+    }
+    console.log('ukupno...' + u + ' ugasio sam '+ i)
   }
 
   getRoleFromCookie(): string | null {
@@ -43,4 +58,11 @@ export class HeaderComponent implements OnInit {
     this.authService.logout()
   }
 
+  getAccount() {
+    this.authService.getAccount()
+  }
+
+  filterTours(type: string) {
+    this.router.navigate(["tours/"+type])
+  }
 }

@@ -17,10 +17,10 @@ public class File {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "alt_text", nullable = false)
+    @Column(name = "alt_text")
     private String altText;
 
     @Lob

@@ -62,15 +62,15 @@ public class Tour {
     private TourType tourType;
 
     @ManyToOne
-    @JoinColumn(name = "guide_umcn")
+    @JoinColumn(name = "guide_email")
     private Guide guide;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
     private File coverImage;
 
     @ManyToOne
-    @JoinColumn(name = "agent_umcn")
+    @JoinColumn(name = "agent_email")
     private Agent agent;
 
     @ManyToMany(mappedBy = "reserved")

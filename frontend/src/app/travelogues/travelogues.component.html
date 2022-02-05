@@ -1,0 +1,38 @@
+<div class="big-container">
+  <mat-card class="container">
+
+    <div *ngFor="let travelogue of travelogues">
+      <mat-card class="card" >
+
+        <mat-card-header>
+          <mat-card-title>{{travelogue.title}}</mat-card-title>
+          <mat-card-subtitle>{{travelogue.city != null ? travelogue.city.name +', '+travelogue.city.country.name : ''}}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <!--img typeof="file" src="{{get64base(citytravelogue.coverImage.data)}}" alt="{{citytravelogue.coverImage.altText}}"-->
+          <div class="wrapper">
+            <div id="one">
+              <img src="data:image/jpeg;base64,{{travelogue.coverImage!.data}}"
+                   alt="{{travelogue.coverImage!.altText}}" >
+            </div>
+
+            <div id="two">
+              <p class="text">
+              {{travelogue.text}}
+              </p>
+              <mat-card-actions>
+                <button (click)="openTravelogue(travelogue)" mat-flat-button>See more</button>
+              </mat-card-actions>
+            </div>
+          </div>
+
+        </mat-card-content>
+
+
+      </mat-card>
+      <br>
+    </div>
+  </mat-card>
+</div>
+

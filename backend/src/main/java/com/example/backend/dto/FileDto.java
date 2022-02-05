@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Data
 public class FileDto implements Serializable {
     private Long id;
-    private String description;
     private String altText;
     private byte[] data;
 }

@@ -24,6 +24,9 @@ public class CityTour {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
@@ -32,20 +35,12 @@ public class CityTour {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @ToString.Exclude
-    @OneToMany
-    private Set<Landmark> landmarks = new java.util.LinkedHashSet<>();
-
-    @ToString.Exclude
-    @OneToMany
-    private Set<Landmark> facultyLandmarks = new java.util.LinkedHashSet<>();
-
-    @ManyToMany
-    private Set<Tour> tours = new java.util.LinkedHashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "file_id", nullable = false)
     private File coverImage;
 
+    @ToString.Exclude
+    @OneToMany
+    private Set<Landmark> landmarks = new java.util.LinkedHashSet<>();
 
 }

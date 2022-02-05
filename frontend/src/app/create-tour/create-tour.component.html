@@ -37,19 +37,17 @@
           <mat-form-field appearance="outline">
             <mat-label>Select tour type</mat-label>
             <mat-select [(ngModel)]="model.tourType"  name="tourType" required>
-              <mat-option value="Summer">Summer</mat-option>
-              <mat-option value="Winter">Winter</mat-option>
-              <mat-option value="Weekend">Weekend</mat-option>
-              <mat-option value="Adventure">Adventure</mat-option>
+              <mat-option *ngFor="let type of
+              ['SUMMER_VACATION', 'WINTER_VACATION', 'WEEKEND', 'CRUISE_TRIP', 'ADVENTURE', 'OTHER']"
+                          value="{{type}}">{{type}}</mat-option>
+
             </mat-select>
           </mat-form-field>
           &nbsp;
           <mat-form-field appearance="outline">
             <mat-label>Select type of transport</mat-label>
             <mat-select [(ngModel)]="model.transportationType"  name="tourType" required>
-              <mat-option value="Bus">Bus</mat-option>
-              <mat-option value="Avio">Avio</mat-option>
-              <mat-option value="Other">Other</mat-option>
+              <mat-option *ngFor="let type of ['BUS', 'PLANE', 'TRAIN', 'NONE']" value="{{type}}">{{type}}</mat-option>
             </mat-select>
           </mat-form-field>
           &nbsp;&nbsp;
@@ -72,8 +70,39 @@
 
         <mat-card-title> Select city tours: </mat-card-title>
 
-      </mat-step>
 
+        <form>
+          <section>
+            <h4>Select city tours to include:</h4>
+            <p *ngFor="let tour of cityTours">
+              <mat-checkbox (change)="setCityTour(tour)"> {{tour.city.name}} </mat-checkbox>
+            </p>
+          </section>
+          <br>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>Select guide:</mat-label>
+            <mat-select [(ngModel)]="model.guideEmail"  name="guideId" required>
+              <mat-option *ngFor="let guide of guides" value="{{guide.email}}">{{guide.name+" "+guide.surname}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <input type="file" accept="image/*" (change)="fileChange($event)"/>
+          </div>
+          <button mat-raised-button (click)="upload()" color="accent"> Upload </button>
+
+
+
+        </form>
+
+        <br>
+
+        <br>
+        <br>
+
+        <button mat-raised-button (click)="submit()" color="accent"> Confirm </button>
+      </mat-step>
     </mat-stepper>
 
   </mat-card>

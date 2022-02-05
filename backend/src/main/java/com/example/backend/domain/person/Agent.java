@@ -24,12 +24,4 @@ public class Agent extends Person{
     @Column(name = "bonus_per_travelogue", nullable = false)
     private Double bonusPerTravelogue;
 
-    @ManyToOne
-    @JoinColumn(name = "created_trips_id")
-    private Tour createdTrips;
-
-    @ManyToOne
-    @JoinColumn(name = "created_travelogue_id")
-    private Travelogue createdTravelogue;
-
 }

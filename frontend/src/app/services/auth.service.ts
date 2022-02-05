@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from "ngx-cookie-service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Account} from "../model/account";
+import {Observable} from "rxjs";
 
 
 const httpOptions = {
@@ -31,6 +33,12 @@ export class AuthService {
   ) {}
 
 
+  register(acc: Account) {
+    return this.http.post(
+      this.url + '/register',
+      acc
+    );
+  }
 
   login(email: string, password: string) {
     return this.http.post(
@@ -43,8 +51,8 @@ export class AuthService {
   }
 
   logout(){
-    return this.http.get(this.url + '/logout').subscribe(
-      () => {
+    this.http.get(this.url + '/logout').subscribe(
+      (next:Object) => {
         this.router.navigate(['/login'])
       },
       (err) => {
@@ -58,6 +66,17 @@ export class AuthService {
     )
   }
 
+
+  getAccount(){
+    this.http.get(this.url + '/account').subscribe(
+      () => {
+        this.router.navigate(['/account'])
+      },
+      (err) => {
+        this.router.navigate(['/login'])
+      }
+    )
+  }
   isAgentUser(): boolean {
     let role = this.getRoleCookie();
     if (role && role === 'agent') {
@@ -80,7 +99,10 @@ export class AuthService {
       let cookieParts = cookie.trim().split('=');
       if (cookieParts[0] === 'role') return cookieParts[1];
     }
-
     return null;
+  }
+
+  getAllGuides() : Observable<Account[]>{
+    return this.http.get<Account[]>(this.url+"/guides")
   }
 }

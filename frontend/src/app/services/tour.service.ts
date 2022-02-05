@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Tour} from "../model/tour";
 import {Observable} from "rxjs";
 import {CityTour} from "../model/city-tour";
+import {NewTour} from "../create-tour/create-tour.component";
 
 const httpOptions = {
   headers: new HttpHeaders(),
@@ -37,5 +38,14 @@ export class TourService {
   }
   getCityToursFor(id: number) : Observable<CityTour[]>{
     return this.http.get<CityTour[]>(this.url + '/tour/city-tours?id='+id)
+  }
+
+  getCityTours() : Observable<CityTour[]>{
+    return this.http.get<CityTour[]>(this.url + '/city-tours')
+  }
+
+  saveTour(model: NewTour, cityTours: number[]) {
+    return this.http.post<Tour>(this.url + '/create-tour', {...model,
+      cityTours: cityTours})
   }
 }

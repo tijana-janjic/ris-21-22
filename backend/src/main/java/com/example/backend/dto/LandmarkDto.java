@@ -16,5 +16,4 @@ public class LandmarkDto implements Serializable {
     private Long id;
     private String name;
     private Double enterancePrice;
-    // private Set<FileDto> gallery;
 }

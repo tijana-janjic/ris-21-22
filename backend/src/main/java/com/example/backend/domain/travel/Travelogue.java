@@ -3,10 +3,17 @@ package com.example.backend.domain.travel;
 import com.example.backend.domain.location.City;
 import com.example.backend.domain.person.Agent;
 import com.example.backend.domain.utils.File;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "travelogue")
 public class Travelogue {
@@ -18,6 +25,7 @@ public class Travelogue {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Lob
     @Column(name = "text", nullable = false)
     private String text;
 
@@ -26,9 +34,10 @@ public class Travelogue {
     private City city;
 
     @ManyToOne
-    @JoinColumn(name = "agent_umcn")
+    @JoinColumn(name = "agent_email")
     private Agent agent;
 
-    @OneToMany
-    private Set<File> gallery;
+    @ManyToOne
+    private File coverImage;
+
 }

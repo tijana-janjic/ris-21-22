@@ -13,4 +13,6 @@ public interface RoleRepository extends JpaRepository<UserRole, Long> {
                     "WHERE ur.name = ?1 AND p.name = ?2)"
     )
     Integer checkIfRoleHasPermission(String roleName, String resource);
+
+    UserRole getByName(String name);
 }
