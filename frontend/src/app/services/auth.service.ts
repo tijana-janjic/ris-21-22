@@ -40,6 +40,14 @@ export class AuthService {
     );
   }
 
+  update(acc: Account) {
+    return this.http.put(
+      this.url + '/update',
+      acc
+    );
+  }
+
+
   login(email: string, password: string) {
     return this.http.post(
       this.url + '/login',
@@ -66,20 +74,21 @@ export class AuthService {
     )
   }
 
-
   getAccount(){
-    this.http.get(this.url + '/account').subscribe(
-      () => {
-        this.router.navigate(['/account'])
-      },
-      (err) => {
-        this.router.navigate(['/login'])
-      }
-    )
+    return this.http.get<Account>(this.url + '/account')
   }
+
   isAgentUser(): boolean {
     let role = this.getRoleCookie();
     if (role && role === 'agent') {
+      return true;
+    }
+    return false;
+  }
+
+  isGuideUser(): boolean {
+    let role = this.getRoleCookie();
+    if (role && role === 'guide') {
       return true;
     }
     return false;
@@ -105,4 +114,12 @@ export class AuthService {
   getAllGuides() : Observable<Account[]>{
     return this.http.get<Account[]>(this.url+"/guides")
   }
+
+  reserve(tourId: number){
+    return this.http.put(
+      this.url + '/reserve?id='+tourId,
+      {})
+  }
+
+
 }

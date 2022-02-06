@@ -1,6 +1,6 @@
 .card {
   width: 320px;
-  background-color: lightgrey;
+  background-color: whitesmoke;
 }
 
 .card-content {
@@ -47,6 +47,7 @@
 }
 
 .container {
+  min-height: 510px;
   display: grid;
   grid-template-columns: 200px 200px 200px;
 }
@@ -54,4 +55,11 @@
 .big-container {
   padding: 5% 20%;
   background-color: #d5d8dc;
+}
+
+.center{
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
 }

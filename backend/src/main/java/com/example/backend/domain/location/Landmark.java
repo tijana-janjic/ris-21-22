@@ -1,14 +1,17 @@
 package com.example.backend.domain.location;
 
 import com.example.backend.domain.location.City;
+import com.example.backend.domain.travel.CityTour;
 import com.example.backend.domain.utils.File;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@ToString
 @NoArgsConstructor
 @Getter
 @Setter
@@ -26,8 +29,13 @@ public class Landmark {
     @Column(name = "enterance_price", nullable = false)
     private Double enterancePrice;
 
+
     @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
+    @JoinColumn(name = "city_id")
     private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "city_tours_id")
+    private CityTour cityTours;
 
 }

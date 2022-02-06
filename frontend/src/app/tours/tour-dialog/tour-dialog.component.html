@@ -76,12 +76,13 @@
                        alt="{{tour.coverImage!.altText}}" >
                 </div>
 
+
                 <div id="two">
                   <h3>Accommodation: </h3>
                   <h5> {{(tour.hotel !== null ? (tour.hotel.name+' ('+tour.hotel.stars+' stars)'  ) : "none")}} </h5>
                   <br><br>
                   <h3>Included visits: </h3>
-                  <h5 *ngFor="let landmark of tour.landmarks.values()">
+                  <h5 *ngFor="let landmark of tour.landmarks">
                     {{landmark.name}}
                   </h5>
                 </div>
@@ -97,8 +98,9 @@
     </mat-expansion-panel>
 
   </mat-accordion>
-
-  <br><br>
-  <button mat-raised-button color="primary">Reserve</button>
+  <div *ngIf="authService.isClientUser()" >
+    <br><br>
+    <button mat-raised-button color="primary" (click)="reserve()">Reserve</button>
+  </div>
   <br><br>
 </mat-dialog-content>

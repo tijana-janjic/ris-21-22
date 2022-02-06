@@ -14,15 +14,16 @@
         <button mat-menu-item (click)="filterTours('')"> All tours  </button>
       </mat-menu>
 
+      <button mat-button [routerLink]=" '/blog' ">Blog</button>
+
       <!-- security: samo registrovan korisnik -->
-      <button mat-button [routerLink]=" '/create-tour' "  *ngIf="getRoleFromCookie() != null">Create tour</button>
+      <span *ngIf="getRoleFromCookie() == 'agent'">
+        <button mat-button [routerLink]=" '/create-tour' " >Create tour</button>
+        <button mat-button [routerLink]=" '/create-city-tour' " >Create city tour</button>
+        <button mat-button [routerLink]=" '/create-article' " >Create article</button>
+      </span>
 
-      <button mat-button [routerLink]=" '/travelogues' ">Travelogue</button>
 
-      <mat-menu #afterMenu="matMenu" xPosition="after">
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
-      </mat-menu>
     </span>
   </span>
 

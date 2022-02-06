@@ -53,6 +53,7 @@
 }
 
 .container {
+  min-height: 450px;
   padding: 5%;
   justify-content: center;
 }

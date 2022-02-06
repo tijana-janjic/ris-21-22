@@ -22,7 +22,7 @@ INSERT INTO user_role(name) VALUES('guide');
 INSERT INTO user_role(name) VALUES('client');
 
 insert into user(email, password, role_id) values ('pera@mail.com', '$2a$12$vzvp8zB6eTuLxPJMfgTcQOOUDRIaMd6KNoqeOIzLAAPszaQqQnMBS', 1);
-insert into agent(email, birthdate, gender, name, surname, phone_number, bonus_per_tour, bonus_per_travelogue, fixed_salary) values ('pera@mail.com', '2000-02-04', 'MALE', 'Pera', 'Peric', '0655827415', 50, 20, 800);
+insert into agent(email, birthdate, gender, name, surname, phone_number, bonus_per_tour, bonus_per_article, fixed_salary) values ('pera@mail.com', '2000-02-04', 'MALE', 'Pera', 'Peric', '0655827415', 50, 20, 800);
 
 insert into user(email, password, role_id) values ('zika@mail.com', '$2a$12$o6qmDahaUlnUmJBWc6ja1OETELTx.r.lMXsy2RgsbhoOqbbaVLxc6', 2);
 insert into guide(email, birthdate, gender, name, surname, phone_number, fixed_salary, percentage_per_tour) values ('zika@mail.com', '1995-06-07', 'MALE', 'Zika', 'Zikic', '0655827415', 600, 100);
@@ -65,17 +65,21 @@ insert into tours_city_tours(tour_id, city_tour_id) values (2,2);
 insert into city_landmarks (city_id, landmarks_id) VALUES (1,1);
 insert into city_landmarks (city_id, landmarks_id) VALUES (1,2);
 
-insert into city_tour_landmarks(city_tour_id, landmarks_id) VALUES (1,1);
-insert into city_tour_landmarks(city_tour_id, landmarks_id) VALUES (1,2);
+insert into landmarks_city_tours(city_tour_id, landmark_id) VALUES (1,1);
+insert into landmarks_city_tours(city_tour_id, landmark_id) VALUES (1,2);
 
-insert into travelogue(text, title, agent_email, city_id, cover_image_id)
+insert into article(text, title, agent_email, city_id, cover_image_id)
 value ('wunderbar!', 'Why to visit Paris', 'pera@mail.com', 1,1);
-insert into travelogue(text, title, agent_email, city_id, cover_image_id)
+insert into article(text, title, agent_email, city_id, cover_image_id)
 value ('bblablabablablblabla!', 'City of light', 'pera@mail.com', 1,2);
-insert into travelogue(text, title, agent_email, city_id, cover_image_id)
+insert into article(text, title, agent_email, city_id, cover_image_id)
 value ('Paris does not need an introduction. It is one of the most beautiful cities on Earth and occupies the top spot in many a traveller''s lists. Brimming with history, beauty and romance; Paris is home to over 200 museums, 2100 listed historic monuments, 1000 art galleries and 3 opera houses. A simple stroll through its charming streets will help you realise the beauty of Paris - whether its the emphatic Eiffel Tower or the beautiful Jardin des Tuileries gardens, there is something to see in every street in the city. To help you experience the best of Paris. In this guide, we will take a look at the 10 best things do in Paris - whether you''re looking at art museums, historic architecture or royal palaces, you will find them in this list. However, if you want to take a deeper look into the different activities based on any given genre, then click on the markers above to go to that list.', 'City of light', 'pera@mail.com', 1,2);
 
+# permission
 
+insert into permission (id, name) values (1, 'GET/logout');
+
+insert into role_and_permission (role_id, permission_id) VALUES (1, 1);
 
 # drop schema travel_agency;
 # create schema travel_agency;

@@ -1,0 +1,38 @@
+<div class="big-container">
+  <mat-card class="container">
+
+    <div *ngFor="let article of blog">
+      <mat-card class="card" >
+
+        <mat-card-header>
+          <mat-card-title>{{article.title}}</mat-card-title>
+          <mat-card-subtitle>{{article.city != null ? article.city.name +', '+article.city.country.name : ''}}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <!--img typeof="file" src="{{get64base(cityarticle.coverImage.data)}}" alt="{{cityarticle.coverImage.altText}}"-->
+          <div class="wrapper">
+            <div id="one">
+              <img src="data:image/jpeg;base64,{{article.coverImage!.data}}"
+                   alt="{{article.coverImage!.altText}}" >
+            </div>
+
+            <div id="two">
+              <p class="text">
+              {{article.text}}
+              </p>
+              <mat-card-actions>
+                <button (click)="openArticle(article)" mat-flat-button>See more</button>
+              </mat-card-actions>
+            </div>
+          </div>
+
+        </mat-card-content>
+
+
+      </mat-card>
+      <br>
+    </div>
+  </mat-card>
+</div>
+

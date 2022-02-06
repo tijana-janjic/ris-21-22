@@ -52,7 +52,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
 
   openTour(tour: Tour) {
-    this.subscriptions.push(this.tourService.getCityToursFor(tour.id).subscribe(
+    this.subscriptions.push(this.tourService.getCityToursOfTour(tour.id).subscribe(
       (response : CityTour[] ) => {
         this.cityTourMap.clear()
         response.forEach( (x:CityTour) => {
@@ -68,7 +68,6 @@ export class ToursComponent implements OnInit, OnDestroy {
             cityTourMap: this.cityTourMap
           },
         });
-
         this.subscriptions.push(dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed');
         }));

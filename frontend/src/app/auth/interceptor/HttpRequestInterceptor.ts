@@ -22,11 +22,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     request = request.clone({
       withCredentials: true,
     });
-
+    console.log(request)
     return next
       .handle(request)
       .pipe(catchError((err) => this.handleError(err)));
   }
+
 
   private handleError(err: any) {
     if (err.status == 401) {

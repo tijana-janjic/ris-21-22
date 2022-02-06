@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {Travelogue} from "../model/travelogue";
+import {Article} from "../model/article";
 import {HttpClient} from "@angular/common/http";
 import {Tour} from "../model/tour";
 import {CityTour} from "../model/city-tour";
+import {NewTour} from "../create-tour/create-tour.component";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TravelogueService {
+export class BlogService {
 
   private url: string = "http://localhost:9000/travelagency/travel"
 
@@ -16,10 +17,14 @@ export class TravelogueService {
     private http: HttpClient
   ) { }
 
-  getAllTravelogues() : Observable<Travelogue[]> {
-    return this.http.get<Travelogue[]>(
-      this.url + '/travelogues'
+  getAllBlogArticles() : Observable<Article[]> {
+    return this.http.get<Article[]>(
+      this.url + '/blog'
     )
+  }
+
+  saveBlog(model: NewTour) {
+    return this.http.post<Tour>(this.url + '/create-article', model)
   }
 
 }

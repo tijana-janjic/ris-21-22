@@ -6,6 +6,8 @@ import {TourService} from "../services/tour.service";
 import {AuthService} from "../services/auth.service";
 import {FileDescription} from "../model/file";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 export interface NewTour {
   name : string
@@ -57,10 +59,22 @@ export class CreateTourComponent implements OnInit, OnDestroy {
   file: File | null = null
   files: File[] = []
 
-  constructor(private tourService : TourService,
-              private authService: AuthService) { }
+  constructor(
+              private authService: AuthService,
+              private tourService : TourService,
+              private router: Router,
+              private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
+    if (!this.authService.isAgentUser()){
+      this.router.navigate(['/home'])
+      this.snackbar.open("You dont have permission for that!","ok", {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar'],
+      })
+    }
     this.subscriptions.push(this.tourService.getCityTours().subscribe(
       value => {
         this.cityTours = value
@@ -118,6 +132,13 @@ export class CreateTourComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tourService.saveTour(this.model, checked ).subscribe(
       value => {
         console.log(JSON.stringify(value))
+        this.router.navigate(['/home'])
+        this.snackbar.open("Successful!","ok", {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar'],
+        })
       }
     ))
   }
@@ -134,7 +155,6 @@ export class CreateTourComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(this.files[i]);
       }
     }
-    this.file = this.files[0]
   }
 
   upload() {

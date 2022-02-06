@@ -1,9 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CityTour} from "../../model/city-tour";
 import {Tour} from "../../model/tour";
 import {DomSanitizer} from "@angular/platform-browser";
 import {TourService} from "../../services/tour.service";
+import {Subscription} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
 
 export interface DialogData {
   tour: Tour;
@@ -15,7 +19,7 @@ export interface DialogData {
   templateUrl: './tour-dialog.component.html',
   styleUrls: ['./tour-dialog.component.css']
 })
-export class TourDialogComponent implements OnInit {
+export class TourDialogComponent implements OnInit, OnDestroy {
 
   tour!: Tour
   gallery = new Array<string| ArrayBuffer>()
@@ -24,8 +28,10 @@ export class TourDialogComponent implements OnInit {
 
   constructor(
     private tourService : TourService,
+    public authService : AuthService,
     public dialogRef: MatDialogRef<TourDialogComponent>,
-    private readonly sanitizer: DomSanitizer,
+    public snackbar: MatSnackBar,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
     this.tour = data.tour
@@ -39,8 +45,45 @@ export class TourDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  subscriptions : Subscription[] = [];
+
+  ngOnDestroy(): void {
+    console.log('gasim se...')
+    const u = this.subscriptions.length
+    let i = 0
+    for (const x of this.subscriptions) {
+      if (!x.closed)
+        i = i + 1
+      x.unsubscribe();
+    }
+    console.log('ukupno...' + u + ' ugasio sam '+ i)
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  reserve(){
+    this.subscriptions.push(this.authService.reserve(this.tour.id).subscribe(
+      response => {
+        this.dialogRef.close()
+        this.router.navigate(['/home'])
+        this.snackbar.open("Registration successful!","ok", {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['green-snackbar'],
+        })
+      },
+      error => {
+        this.snackbar.open("Registration unsuccessful!","ok", {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['red-snackbar'],
+        })
+      }
+    ))
   }
 
 }

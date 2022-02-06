@@ -4,6 +4,7 @@
 
       <mat-step>
         <mat-card-title> Enter details about tour: </mat-card-title>
+
         <br>
         <form class="example-form">
 
@@ -60,16 +61,16 @@
           <br>
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Description</mat-label>
-            <textarea matInput resizeToFitContent></textarea>
+            <textarea matInput [(ngModel)]="model.description"  name="description" requiredresizeToFitContent></textarea>
           </mat-form-field>
           <br>
         </form>
+        <span class="backwards"><button mat-raised-button (click)="submit()" color="accent"> Confirm </button></span>
 
       </mat-step>
       <mat-step>
 
         <mat-card-title> Select city tours: </mat-card-title>
-
 
         <form>
           <section>
@@ -86,24 +87,19 @@
               <mat-option *ngFor="let guide of guides" value="{{guide.email}}">{{guide.name+" "+guide.surname}}</mat-option>
             </mat-select>
           </mat-form-field>
-
           <div>
-            <input type="file" accept="image/*" (change)="fileChange($event)"/>
+            <h4>Select cover photo:</h4>
+            <label class="custom-file-upload">
+              <i>Browse...</i>
+              <input  type="file" accept="image/*" (change)="fileChange($event)"/>
+            </label>&nbsp;
+            <button mat-button (click)="upload()" > Upload </button>
           </div>
-          <button mat-raised-button (click)="upload()" color="accent"> Upload </button>
-
-
-
+          <br>
         </form>
-
-        <br>
-
-        <br>
-        <br>
-
-        <button mat-raised-button (click)="submit()" color="accent"> Confirm </button>
+        <span class="backwards"><button mat-raised-button (click)="submit()" color="accent"> Confirm </button></span>
       </mat-step>
     </mat-stepper>
-
+    <br>
   </mat-card>
 </div>

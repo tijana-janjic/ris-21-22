@@ -4,6 +4,7 @@ import com.example.backend.domain.location.City;
 import com.example.backend.domain.location.Hotel;
 import com.example.backend.domain.location.Landmark;
 import com.example.backend.domain.utils.File;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,12 +36,17 @@ public class CityTour {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
     private File coverImage;
 
     @ToString.Exclude
-    @OneToMany
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "landmarks_city_tours",
+            joinColumns = @JoinColumn(name = "city_tour_id"),
+            inverseJoinColumns = @JoinColumn(name = "landmark_id"))
     private Set<Landmark> landmarks = new java.util.LinkedHashSet<>();
 
 }

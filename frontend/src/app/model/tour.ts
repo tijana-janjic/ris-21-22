@@ -16,4 +16,5 @@ export interface Tour {
   agentEmail : number
   description: string
   coverImage: FileDescription | null
+  cities: string[]
 }

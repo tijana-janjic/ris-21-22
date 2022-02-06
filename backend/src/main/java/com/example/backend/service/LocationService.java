@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocationService {
@@ -36,16 +37,31 @@ public class LocationService {
         return countryRepository.getById(id);
     }
 
-    public City getCityById(Long id){
-        return cityRepository.getById(id);
+    public Optional<City> getCityById(Long id) {
+        return cityRepository.findById(id);
     }
-
-    public Hotel getHotelById(Long id){
-        return hotelRepository.getById(id);
+    public Optional<Hotel> getHotelById(Long id) {
+        return hotelRepository.findById(id);
     }
 
     public List<Landmark> getLandmarksByIds(List<Long> ids){
         return landmarkRepository.findAllById(ids);
+    }
+
+    public List<Country> getAllCountries() {
+        return countryRepository.findAll();
+    }
+
+    public List<City> getCitiesByCountryId(Long id){
+        return cityRepository.findAllByCountryId(id);
+    }
+
+    public List<Hotel> getHotelsByCityId(Long id){
+        return hotelRepository.getByCityId(id);
+    }
+
+    public List<Landmark> getLandmarksByCityId(Long id){
+        return landmarkRepository.getLandmarksByCityId(id);
     }
 
 }

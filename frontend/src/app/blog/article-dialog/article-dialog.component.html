@@ -1,0 +1,28 @@
+<mat-dialog-content>
+  <br>
+  <h1> {{this.article.title}} </h1>
+  <br>
+  <h3> {{this.article.city.name +', '+ this.article.city.country.name}} </h3>
+
+  <br><br>
+  <br><br>
+
+  <img src="data:image/jpeg;base64,{{article.coverImage!.data}}"
+       alt="{{article.coverImage!.altText}}" >
+
+  <br><br>
+  <br><br>
+  <p>
+    {{this.article.text}}
+  </p>
+  <br><br>
+  <br><br>
+
+  Written by:
+  {{this.article.agentName + " " + article.agentSurname + " "}}
+  <i> {{this.article.agentEmail + " "}} </i>
+
+
+
+</mat-dialog-content>
+

@@ -2,7 +2,9 @@
   min-height: 450px;
   padding: 4%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+
 }
 
 .big-container {
@@ -19,7 +21,15 @@
 }
 
 .third-width {
-  width: 33%;
+  width: 31%;
+}
+
+.confirm {
+  align-self: flex-end;
+}
+
+.snackbar{
+  background: yellowgreen;
 }
 
 input[type="file"] {

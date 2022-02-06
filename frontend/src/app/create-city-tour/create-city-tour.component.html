@@ -1,0 +1,55 @@
+<div class="big-container">
+  <mat-card class="container">
+    <mat-card-title> Enter info about new city tour: </mat-card-title>
+    <br>
+    <br>
+    <mat-card-content>
+      <form>
+        <br>
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Enter name of tour</mat-label>
+          <input matInput placeholder="Name" [(ngModel)]="name" name="name"  required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>Select country:</mat-label>
+          <mat-select [(ngModel)]="countryId"  name="countryId" required  (selectionChange)="getCitiesByCountryId(countryId)">
+            <mat-option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="outline"  class="third-width">
+          <mat-label>Select city:</mat-label>
+          <mat-select [(ngModel)]="cityId"  name="cityId" required disabled="{{countryId == -1}}" (selectionChange)="getInfo(cityId)">
+            <mat-option *ngFor="let city of cities" value="{{city.id}}">{{city.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>Select hotel:</mat-label>
+          <mat-select [(ngModel)]="hotelId"  name="hotelId" required disabled="{{cityId == -1}}" >
+            <mat-option *ngFor="let hotel of hotels" value="{{hotel.id}}">{{hotel.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <div *ngIf="cityId != -1">
+          <h3>Select landmarks to include:</h3>
+          <p *ngFor="let landmark of landmarks">
+          <mat-checkbox  (change)="setLandmark(landmark)"> {{landmark.name}}  </mat-checkbox><br>
+          </p>
+        </div>
+        <br>
+        <div>
+          <h4>Select cover photo:</h4>
+          <label class="custom-file-upload">
+            <i>Browse...</i>
+            <input  type="file" accept="image/*" (change)="fileChange($event)"/>
+          </label>&nbsp;
+          <button mat-button (click)="upload()" > Upload </button>
+        </div>
+        <br>
+        <span class="backwards"><button mat-raised-button (click)="submit()" color="accent"> Confirm </button></span>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

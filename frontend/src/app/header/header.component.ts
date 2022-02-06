@@ -59,7 +59,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getAccount() {
-    this.authService.getAccount()
+    const role = this.authService.getRoleCookie()
+    if ( role == null || role === '')
+      this.router.navigate(['/login'])
+    else
+      this.router.navigate(['/account'])
   }
 
   filterTours(type: string) {

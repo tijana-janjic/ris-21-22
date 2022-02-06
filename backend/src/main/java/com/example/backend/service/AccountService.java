@@ -26,7 +26,7 @@ public class AccountService {
     }
 
 
-    public void addNewClient(Client client) {
+    public void saveClient(Client client) {
         clientRepository.save(client);
     }
 
@@ -40,5 +40,9 @@ public class AccountService {
 
     public List<Guide> getAllGuides() {
         return guideRepository.findAll();
+    }
+
+    public Guide getGuideByEmail(String email) {
+        return guideRepository.getById(email);
     }
 }

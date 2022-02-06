@@ -29,4 +29,5 @@ public class TourDto implements Serializable {
     private String guideEmail;
     private String agentEmail;
     private FileDto coverImage;
+    private Set<String> cities;
 }

@@ -1,7 +1,7 @@
 import {City} from "./city";
 import {FileDescription} from "./file";
 
-export interface Travelogue {
+export interface Article {
   id: number
   title : string
   text : string;

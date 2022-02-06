@@ -4,28 +4,28 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Tour} from "../../model/tour";
 import {CityTour} from "../../model/city-tour";
-import {Travelogue} from "../../model/travelogue";
+import {Article} from "../../model/article";
 
 export interface DialogData {
-  travelogue: Travelogue;
+  article: Article;
 }
 
 @Component({
-  selector: 'app-travelogue-dialog',
-  templateUrl: './travelogue-dialog.component.html',
-  styleUrls: ['./travelogue-dialog.component.css']
+  selector: 'app-article-dialog',
+  templateUrl: './article-dialog.component.html',
+  styleUrls: ['./article-dialog.component.css']
 })
-export class TravelogueDialogComponent implements OnInit {
+export class ArticleDialogComponent implements OnInit {
 
-  travelogue!: Travelogue
+  article!: Article
 
   constructor(
-    public dialogRef: MatDialogRef<TravelogueDialogComponent>,
+    public dialogRef: MatDialogRef<ArticleDialogComponent>,
     private readonly sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
-    this.travelogue = data.travelogue
-    console.log("otvoren: " + this.travelogue.id)
+    this.article = data.article
+    console.log("otvoren: " + this.article.id)
   }
 
   ngOnInit(): void {

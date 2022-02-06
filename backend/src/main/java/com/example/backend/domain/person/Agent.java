@@ -1,7 +1,5 @@
 package com.example.backend.domain.person;
 
-import com.example.backend.domain.travel.Tour;
-import com.example.backend.domain.travel.Travelogue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +19,7 @@ public class Agent extends Person{
     @Column(name = "bonus_per_tour", nullable = false)
     private Double bonusPerTour;
 
-    @Column(name = "bonus_per_travelogue", nullable = false)
-    private Double bonusPerTravelogue;
+    @Column(name = "bonus_per_article", nullable = false)
+    private Double bonusPerArticle;
 
 }
