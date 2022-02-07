@@ -90,4 +90,35 @@ export class TourService {
     return this.http.get<City[]>(this.url + '/cities?id='+countryId)
   }
 
+  getToursByAgent() {
+    return this.http.get<Tour[]>(this.url + '/agent/tours')
+  }
+
+  getToursByGuide() {
+    return this.http.get<Tour[]>(this.url + '/guide/tours')
+  }
+
+  getReservations() {
+    return this.http.get<Tour[]>(this.url + '/client/reservations')
+  }
+
+  getClientTrips() {
+    return this.http.get<Tour[]>(this.url + '/client/trips')
+  }
+
+  getArticlesByAgent() {
+    return this.http.get<Article[]>(this.url + '/agent/articles')
+  }
+
+  deleteTour(id: number) {
+    return this.http.delete(this.url + '/delete-tour?id='+id)
+  }
+
+  deleteArticle(id: number) {
+    return this.http.delete(this.url + '/delete-article?id='+id)
+  }
+
+  getReport() {
+    return this.http.get<Blob>(this.url + '/agent/tours-report')
+  }
 }

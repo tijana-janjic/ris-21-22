@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class UserRole {
+public class Role {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,10 @@ public class UserRole {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "role_and_permission",
-			joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name="permission_id", referencedColumnName = "id"))
+			joinColumns = @JoinColumn(name = "role_id"),
+			inverseJoinColumns = @JoinColumn(name="permission_id"))
 	private Set<Permission> permissions = new HashSet<>();
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<>();
 }

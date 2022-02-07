@@ -68,7 +68,7 @@ export class TourDialogComponent implements OnInit, OnDestroy {
       response => {
         this.dialogRef.close()
         this.router.navigate(['/home'])
-        this.snackbar.open("Registration successful!","ok", {
+        this.snackbar.open("Reservation successfully added!","ok", {
           duration: 3000,
           horizontalPosition: 'end',
           verticalPosition: 'top',
@@ -76,7 +76,7 @@ export class TourDialogComponent implements OnInit, OnDestroy {
         })
       },
       error => {
-        this.snackbar.open("Registration unsuccessful!","ok", {
+        this.snackbar.open("Reservation unsuccessful!","ok", {
           duration: 3000,
           horizontalPosition: 'end',
           verticalPosition: 'top',

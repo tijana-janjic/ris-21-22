@@ -28,7 +28,7 @@ public class User {
 	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="role_id")
-	private UserRole role = new UserRole();
+	private Role role = new Role();
 
 
 }

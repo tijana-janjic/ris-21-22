@@ -122,4 +122,10 @@ export class AuthService {
   }
 
 
+  cancel(tourId: number) {
+    return this.http.put(
+      this.url + '/cancel?id='+tourId,
+      {})
+  }
+
 }

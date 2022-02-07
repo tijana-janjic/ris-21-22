@@ -44,7 +44,7 @@ public class CityTour {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "landmarks_city_tours",
+            name = "landmark_city_tour",
             joinColumns = @JoinColumn(name = "city_tour_id"),
             inverseJoinColumns = @JoinColumn(name = "landmark_id"))
     private Set<Landmark> landmarks = new java.util.LinkedHashSet<>();

@@ -4,90 +4,94 @@
     <br>
     <br>
 
-      <h2> Basic info: </h2>
-      <div *ngIf="account">
-        <form class="example-form">
-          <br>
-          <mat-form-field appearance="standard">
-            <mat-label>Enter your name</mat-label>
-            <input matInput placeholder="Pam" [(ngModel)]="account.name" name="name" required>
-          </mat-form-field>
-          &nbsp;
-          <mat-form-field appearance="standard">
-            <mat-label>Enter your surname</mat-label>
-            <input matInput placeholder="Smith" [(ngModel)]="account.surname" name="surname" required>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="standard">
-            <mat-label>Birthdate</mat-label>
-            <input matInput [matDatepicker]="$any(picker)" [matDatepickerFilter]="filterYounger"  [(ngModel)]="account.birthdate" name="birthdate" required>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker [startAt]="getMinDate()"></mat-datepicker>
-          </mat-form-field>
-          &nbsp;
-          <mat-form-field appearance="standard">
-            <mat-label>Select your gender: </mat-label>
-            <mat-select [(ngModel)]="account.gender"  name="gender">
-              <mat-option value="MALE">Male</mat-option>
-              <mat-option value="FEMALE">Female</mat-option>
-              <mat-option value="OTHER">Other</mat-option>
-            </mat-select>
-          </mat-form-field>
+    <h2> Basic info: </h2>
+    <div *ngIf="account">
+      <form>
+        <br>
+        <mat-form-field appearance="standard">
+          <mat-label>Enter your name</mat-label>
+          <input matInput placeholder="Pam" [(ngModel)]="account.name" name="name" required>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="standard">
+          <mat-label>Enter your surname</mat-label>
+          <input matInput placeholder="Smith" [(ngModel)]="account.surname" name="surname" required>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="standard">
+          <mat-label>Birthdate</mat-label>
+          <input matInput [matDatepicker]="$any(picker)" [matDatepickerFilter]="filterYounger"  [(ngModel)]="account.birthdate" name="birthdate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker [startAt]="getMinDate()"></mat-datepicker>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="standard">
+          <mat-label>Select your gender: </mat-label>
+          <mat-select [(ngModel)]="account.gender"  name="gender">
+            <mat-option value="MALE">Male</mat-option>
+            <mat-option value="FEMALE">Female</mat-option>
+            <mat-option value="OTHER">Other</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <br>
-          <mat-form-field appearance="standard" disabled="true">
-            <mat-label>Enter your email</mat-label>
-            <input matInput disabled [(ngModel)]="account.email"  name="email" required>
-          </mat-form-field>
-          &nbsp;
-          <mat-form-field appearance="standard" >
-            <mat-label>Telephone</mat-label>
-            <span matPrefix>+381 &nbsp;</span>
-            <input type="tel" matInput placeholder="64-123-4567"  [(ngModel)]="account.phoneNumber"  name="phoneNumber" >
-            <mat-icon matSuffix>mode_edit</mat-icon>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="standard">
-            <mat-label>Enter your password</mat-label>
-            <input matInput type="password"  [(ngModel)]="account.password"  name="password" required>
-          </mat-form-field>
-          &nbsp;
-          <br><br><br>
+        <br>
+        <mat-form-field appearance="standard" disabled="true">
+          <mat-label>Enter your email</mat-label>
+          <input matInput disabled [(ngModel)]="account.email"  name="email" required>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="standard" >
+          <mat-label>Telephone</mat-label>
+          <span matPrefix>+381 &nbsp;</span>
+          <input type="tel" matInput placeholder="64-123-4567"  [(ngModel)]="account.phoneNumber"  name="phoneNumber" >
+          <mat-icon matSuffix>mode_edit</mat-icon>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="standard">
+          <mat-label>Enter your password</mat-label>
+          <input matInput type="password"  [(ngModel)]="account.password"  name="password" required>
+        </mat-form-field>
+        &nbsp;
+        <br><br><br>
 
-          <button mat-flat-button color="primary" class="confirm" (click)="update()">
-            Confirm
-          </button>
-        </form>
+        <button mat-flat-button color="accent" class="confirm" (click)="update()">
+          Confirm
+        </button>
+      </form>
 
-      </div>
+    </div>
 
-    <br><br>
-    <br><br>
+    <br><br><br>
 
-
-      <button mat-flat-button *ngIf="isClientUser()" color="primary" >
+    <div *ngIf="isClientUser()" >
+      <button mat-flat-button color="primary" class="half-width" (click)="openMyReservations()">
         My reservations
-      </button>
-      <button mat-flat-button *ngIf="isClientUser()" color="primary">
+      </button>&nbsp;&nbsp;
+      <button mat-flat-button color="primary" class="half-width" (click)="openMyTrips()">
         My last trips
       </button>
+    </div>
 
-      <button mat-flat-button color="primary" *ngIf="isAgentUser()">
+    <div *ngIf="isAgentUser()" >
+      <button mat-flat-button color="primary" class="half-width" (click)="openToursByAgent()">
         My tours
-      </button>
-      <button mat-flat-button color="primary" *ngIf="isAgentUser()">
+      </button>&nbsp;&nbsp;
+      <button mat-flat-button color="primary" class="half-width" (click)="openArticlesByAgent()">
         My articles
-      </button>
-      <button mat-flat-button color="primary" *ngIf="isAgentUser()">
+      </button>&nbsp;&nbsp;
+      <button mat-flat-button color="primary" class="half-width"  (click)="getMonthlyReport()">
         Monthly report
       </button>
+    </div>
 
-      <button mat-flat-button color="primary" *ngIf="isGuideUser()">
+    <div *ngIf="isGuideUser()" >
+      <button mat-flat-button color="primary" class="third-width"  (click)="getToursByGuide()">
         My tours
-      </button>
-      <button mat-flat-button color="primary" *ngIf="isGuideUser()">
+      </button>&nbsp;&nbsp;
+      <button mat-flat-button color="primary" class="third-width"  (click)="getMonthlyReport()">
         Monthly report
       </button>
+    </div>
 
 
   </mat-card>

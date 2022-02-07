@@ -43,6 +43,13 @@ import { CreateArticleComponent } from './create-article/create-article.componen
 
 import { HttpRequestInterceptor } from "./auth/interceptor/HttpRequestInterceptor";
 import {MatChipsModule} from "@angular/material/chips";
+import { MyReservationsComponent } from './account/my-reservations/my-reservations.component';
+import { MyTripsComponent } from './account/my-trips/my-trips.component';
+import {MatTableModule} from "@angular/material/table";
+import { AgentToursComponent } from './account/agent-tours/agent-tours.component';
+import { AgentArticlesComponent } from './account/agent-articles/agent-articles.component';
+import { GuideArticlesComponent } from './account/guide-articles/guide-articles.component';
+import { ToursFilteredComponent } from './tours-filtered/tours-filtered.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +65,13 @@ import {MatChipsModule} from "@angular/material/chips";
     AccountComponent,
     ArticleDialogComponent,
     CreateCityTourComponent,
-    CreateArticleComponent
+    CreateArticleComponent,
+    MyReservationsComponent,
+    MyTripsComponent,
+    AgentToursComponent,
+    AgentArticlesComponent,
+    GuideArticlesComponent,
+    ToursFilteredComponent
   ],
     imports: [
         BrowserModule,
@@ -86,7 +99,8 @@ import {MatChipsModule} from "@angular/material/chips";
         MatProgressSpinnerModule,
         MatSnackBarModule,
         MatCheckboxModule,
-        MatChipsModule
+        MatChipsModule,
+        MatTableModule
     ],
   providers: [
      { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true }

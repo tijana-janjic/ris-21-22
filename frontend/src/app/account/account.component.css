@@ -4,8 +4,6 @@
 
 .card-content {
   display: flex;
-  flow-from: row;
-  align-content: flex-start;
 }
 
 .card-content-item {
@@ -21,41 +19,9 @@
   padding: 20px;
 }
 
-#one {
-  float:left;
-  margin-right:20px;
-  width:300px;
-  height: 220px;
-  overflow: hidden;
-}
-
-#one img {
-  width:300px;
-  height: 220px;
-}
-
-#two {
-  background-color: white;
-  overflow:hidden;
-  margin:10px;
-  border:2px dashed #ccc;
-  min-height:170px;
-}
-
-@media screen and (max-width: 400px) {
-  #one {
-    float: none;
-    margin-right:0;
-    width:auto;
-    border:0;
-    border-bottom:2px solid #000;
-  }
-}
-
 .container {
   min-height: 450px;
   padding: 5%;
-  justify-content: center;
 }
 
 .big-container {
@@ -72,3 +38,16 @@
 button {
   max-width: 200px;
 }
+
+.half-width {
+  width: 45%;
+}
+
+.third-width {
+  width: 30%;
+}
+
+table {
+  width: 100%;
+}
+

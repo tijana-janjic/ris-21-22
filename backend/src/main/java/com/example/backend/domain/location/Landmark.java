@@ -29,13 +29,7 @@ public class Landmark {
     @Column(name = "enterance_price", nullable = false)
     private Double enterancePrice;
 
-
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
-
-    @ManyToOne
-    @JoinColumn(name = "city_tours_id")
-    private CityTour cityTours;
-
 }

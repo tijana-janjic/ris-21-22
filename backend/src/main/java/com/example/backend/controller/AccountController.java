@@ -1,22 +1,25 @@
 package com.example.backend.controller;
 
 
-import javax.servlet.http.Cookie;
+import com.example.backend.domain.auth.Role;
 import com.example.backend.domain.auth.User;
-import com.example.backend.domain.auth.UserRole;
+import com.example.backend.domain.person.Agent;
 import com.example.backend.domain.person.Client;
+import com.example.backend.domain.person.Guide;
 import com.example.backend.domain.travel.Tour;
 import com.example.backend.dto.LoginRequestDto;
 import com.example.backend.dto.PersonDto;
-import com.example.backend.dto.PermissionCheckerDTO;
+import com.example.backend.security.AuthorizationService;
 import com.example.backend.security.MyUserPrinciple;
 import com.example.backend.security.TokenUtils;
-import com.example.backend.service.*;
+import com.example.backend.service.AccountService;
+import com.example.backend.service.RoleService;
+import com.example.backend.service.TourService;
+import com.example.backend.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,9 +29,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,7 +41,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/auth")
 public class AccountController {
-
 
     private final AuthenticationManager authenticationManager;
     private final AuthorizationService authorizationService;
@@ -81,12 +85,13 @@ public class AccountController {
         UsernamePasswordAuthenticationToken temp = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
         Authentication authentication = authenticationManager.authenticate(temp);
 
-        System.out.println("authentication:  " + u.getEmail());
 
         MyUserPrinciple myUserPrinciple = (MyUserPrinciple) authentication.getPrincipal();
         User user = myUserPrinciple.getUser();
         String token = tokenUtils.generateToken(user.getEmail());
         getCookies(user, token).forEach(response::addCookie);
+
+        myUserPrinciple.getAuthorities().forEach(System.err::println);
 
         System.out.println("token: " + token);
 
@@ -104,7 +109,7 @@ public class AccountController {
         if(userService.findByEmail(dto.getEmail()).isPresent())
             throw new BadCredentialsException("Already used email!");
 
-        UserRole role = roleService.getRoleByName("client");
+        Role role = roleService.getRoleByName("client");
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -134,7 +139,8 @@ public class AccountController {
 
         System.out.println("update: pogodjen sam!");
 
-        String token = request.getCookies()[1].getValue();
+        String role = request.getCookies()[1].getValue();
+        String token = request.getCookies()[0].getValue();
         String email = tokenUtils.getEmailFromToken(token);
 
 
@@ -142,25 +148,42 @@ public class AccountController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(dto.getPassword()));
 
-        Client client = accountService.getClientByEmail(email);
+        if (role.equals("client")) {
+            Client client = accountService.getClientByEmail(email);
+            client.setName(dto.getName());
+            client.setSurname(dto.getSurname());
+            client.setBirthdate(LocalDate.parse(dto.getBirthdate().split("T")[0]));
+            client.setGender(dto.getGender());
+            client.setPhoneNumber(dto.getPhoneNumber());
+            accountService.saveClient(client);
+        }
 
-        client.setName(dto.getName());
-        client.setSurname(dto.getSurname());
-        client.setBirthdate(LocalDate.parse(dto.getBirthdate().split("T")[0]));
-        client.setGender(dto.getGender());
-        client.setPhoneNumber(dto.getPhoneNumber());
+        if (role.equals("agent")) {
+            Agent agent = accountService.getAgentByEmail(email);
+            agent.setName(dto.getName());
+            agent.setSurname(dto.getSurname());
+            agent.setBirthdate(LocalDate.parse(dto.getBirthdate().split("T")[0]));
+            agent.setGender(dto.getGender());
+            agent.setPhoneNumber(dto.getPhoneNumber());
+            accountService.saveAgent(agent);
+        }
 
+        if (role.equals("guide")) {
+            Guide guide = accountService.getGuideByEmail(email);
+            guide.setName(dto.getName());
+            guide.setSurname(dto.getSurname());
+            guide.setBirthdate(LocalDate.parse(dto.getBirthdate().split("T")[0]));
+            guide.setGender(dto.getGender());
+            guide.setPhoneNumber(dto.getPhoneNumber());
+            accountService.saveGuide(guide);
+        }
         userService.saveUser(user);
-        accountService.saveClient(client);
-
         return ResponseEntity.ok().build();
-
     }
 
 
     @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @GetMapping("/logout")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_GUIDE')")
     public ResponseEntity logout(HttpServletResponse response) {
         getCookiesWithInvalidDates(response).forEach(response::addCookie);
         return ResponseEntity.ok().build();
@@ -184,14 +207,31 @@ public class AccountController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+    @PutMapping("/cancel")
+    public ResponseEntity cancelReservation(@RequestParam Long id, HttpServletRequest request) {
+
+        Tour tour = tourService.getTourById(id);
+
+        String token = request.getCookies()[0].getValue();
+        String email = tokenUtils.getEmailFromToken(token);
+
+        Client client = accountService.getClientByEmail(email);
+        client.removeReservation(tour);
+
+        accountService.saveClient(client);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     @GetMapping("/account")
     public ResponseEntity<PersonDto> getAccount(HttpServletRequest request,
                                      HttpServletResponse response) {
 
         System.err.println("\t\thiii");
 
-        String role = request.getCookies()[0].getValue();
-        String token = request.getCookies()[1].getValue();
+        String token = request.getCookies()[0].getValue();
+        String role = request.getCookies()[1].getValue();
         String email = tokenUtils.getEmailFromToken(token);
 
 
@@ -201,17 +241,13 @@ public class AccountController {
 
         PersonDto person;
 
-        if(role.equals("client"))
-            person = modelMapper.map(accountService.getClientByEmail(email), PersonDto.class);
-        else if(role.equals("agent"))
-            person = modelMapper.map(accountService.getAgentByEmail(email), PersonDto.class);
-        else if(role.equals("guide"))
-            person = modelMapper.map(accountService.getGuideByEmail(email), PersonDto.class);
-        else
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
+        switch (role) {
+            case "client" -> person = modelMapper.map(accountService.getClientByEmail(email), PersonDto.class);
+            case "agent" -> person = modelMapper.map(accountService.getAgentByEmail(email), PersonDto.class);
+            case "guide" -> person = modelMapper.map(accountService.getGuideByEmail(email), PersonDto.class);
+            default -> { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        }
         return new ResponseEntity<>(person, HttpStatus.OK);
-
     }
 
     @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -231,14 +267,8 @@ public class AccountController {
         return new ResponseEntity<>(false, HttpStatus.OK);
     }
 
-    @PostMapping("/check-permission")
-    public ResponseEntity<Boolean> checkIfUserHasPermission(@RequestBody PermissionCheckerDTO permissionCheckerDTO) {
-        Boolean hasPermission = authorizationService.checkIfUserHasPermission(permissionCheckerDTO.getToken(), permissionCheckerDTO.getResource());
-        return new ResponseEntity<>(hasPermission, HttpStatus.OK);
-    }
-
-    private Set<Cookie> getCookies(User user, String token) {
-        Set<Cookie> cookies = new HashSet<>();
+    private ArrayList<Cookie> getCookies(User user, String token) {
+        ArrayList<Cookie> cookies = new ArrayList<>();
 
         Cookie tokenCookie = new Cookie("token", token);
         tokenCookie.setMaxAge(24 * 60 * 60 * 1000);

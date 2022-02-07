@@ -26,7 +26,7 @@ public class City {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany
+    @OneToMany(mappedBy = "city")
     private Set<Landmark> landmarks;
 
 }

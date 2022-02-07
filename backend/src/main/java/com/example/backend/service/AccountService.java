@@ -45,4 +45,12 @@ public class AccountService {
     public Guide getGuideByEmail(String email) {
         return guideRepository.getById(email);
     }
+
+    public void saveAgent(Agent agent) {
+        agentRepository.save(agent);
+    }
+
+    public void saveGuide(Guide guide) {
+        guideRepository.save(guide);
+    }
 }

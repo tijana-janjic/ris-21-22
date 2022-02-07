@@ -9,6 +9,7 @@ import com.example.backend.repository.travel.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -62,4 +63,39 @@ public class TourService {
     }
 
 
+    public List<Tour> getToursByAgent(String email) {
+        return tourRepository.findByAgentEmail(email);
+    }
+
+    public List<Tour> getToursByGuide(String email) {
+        return tourRepository.findByGuideEmail(email);
+    }
+
+    public List<Tour> getReservations(String email) {
+        return tourRepository.findByClientEmailAndDeadlineAfter(email, LocalDateTime.now());
+    }
+
+    public List<Tour> getTrips(String email) {
+        return tourRepository.findByClientEmailAndDeadlineBefore(email, LocalDateTime.now());
+    }
+
+    public List<Tour> getActiveTours() {
+        return tourRepository.findByDeadlineAfter(LocalDateTime.now());
+    }
+
+    public List<Article> getAllArticlesByAgent(String email) {
+        return articleRepository.findAllByAgentEmail(email);
+    }
+
+    public void deleteTour(Tour tour) {
+        tourRepository.delete(tour);
+    }
+
+    public Article getArticleById(Long id) {
+        return articleRepository.findById(id).orElseThrow();
+    }
+
+    public void deleteArticle(Article article) {
+        articleRepository.delete(article);
+    }
 }
