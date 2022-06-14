@@ -9,6 +9,7 @@ import {BlogComponent} from "./blog/blog.component";
 import {CreateArticleComponent} from "./create-article/create-article.component";
 import {CreateCityTourComponent} from "./create-city-tour/create-city-tour.component";
 import {AccountComponent} from "./account/account.component";
+import { AgentGuard } from './auth/agent-guard/AgentGuard.guard';
 
 const routes: Routes = [
   { path: 'tours', component: ToursComponent },
@@ -17,9 +18,9 @@ const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
-  { path: 'create-tour', component: CreateTourComponent },
-  { path: 'create-article', component: CreateArticleComponent },
-  { path: 'create-city-tour', component: CreateCityTourComponent },
+  { path: 'create-tour', component: CreateTourComponent, canActivate: [AgentGuard] },
+  { path: 'create-article', component: CreateArticleComponent, canActivate: [AgentGuard] },
+  { path: 'create-city-tour', component: CreateCityTourComponent, canActivate: [AgentGuard] },
   { path: '**', component: HomeComponent },
 ];
 

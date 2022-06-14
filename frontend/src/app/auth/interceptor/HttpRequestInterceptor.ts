@@ -6,14 +6,14 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarModule  } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private _snackBar: MatSnackBar) {}
+  constructor(private router: Router, private _snackBar: MatSnackBar) { }
 
   intercept(
     request: HttpRequest<any>,
@@ -54,8 +54,18 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       });
 
       of(err.message);
-    }
+    } else if (err.status == 403) {
+      let msg = 'Wrong email or password!';
 
+      this._snackBar.open(msg, 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['snackbar'],
+      });
+
+      of(err.message);
+    }
     return throwError(err);
   }
 }

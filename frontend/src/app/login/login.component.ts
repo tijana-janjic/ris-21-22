@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.authService.router.navigate(['/home'])
         },
         (err) => {
-          if (err.status === 400) {
+          if (err.status === 403) {
             this.error = 'Wrong email or password';
           }
         }

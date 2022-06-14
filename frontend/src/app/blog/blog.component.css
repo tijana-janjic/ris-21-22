@@ -58,6 +58,11 @@
   justify-content: center;
 }
 
+.loader {
+  padding-left: 40%;
+  padding-top: 20%;
+}
+
 .big-container {
   padding: 5% 20%;
   background-color: #d5d8dc;

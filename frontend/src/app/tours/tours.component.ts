@@ -18,6 +18,8 @@ export class ToursComponent implements OnInit, OnDestroy {
   cityTourMap: Map<number,CityTour> = new Map<number, CityTour>()
   tours: Tour[] = []
 
+  loaded = false
+
   constructor(private tourService : TourService, public dialog: MatDialog, public router: Router) { }
 
   ngOnInit(): void {
@@ -46,6 +48,7 @@ export class ToursComponent implements OnInit, OnDestroy {
             this.tourMap.set(x.id, x)
           })
           this.tours.push(...this.tourMap.values())
+          this.loaded = true
           console.log('unutar subscribe ' + JSON.stringify(this.tourMap))
         }
       ))
@@ -58,9 +61,6 @@ export class ToursComponent implements OnInit, OnDestroy {
         response.forEach( (x:CityTour) => {
           this.cityTourMap.set(x.id, x)
         })
-        console.log('tourMap.values() ' + JSON.stringify(this.tourMap.values()))
-
-        console.log('otvaram : ' + tour.id);
         const dialogRef = this.dialog.open(TourDialogComponent, {
           width: '1000px',
           data: {

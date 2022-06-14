@@ -1,36 +1,40 @@
 <div class="big-container">
-  <mat-card class="container" style="
-  display: grid;
-  grid-template-columns: 50% 50%;">
 
-    <div class="card-content" *ngFor="let tour of tours" style="margin: 20px auto;">
-      <mat-card class="card" >
+  <mat-card  class="loader" *ngIf="!loaded">
+    <mat-spinner></mat-spinner>
+  </mat-card>
 
-        <mat-card-header>
-          <mat-card-title>{{tour.name}}</mat-card-title>
-          <mat-card-subtitle>{{tour.cities.join(', ') }}</mat-card-subtitle>
-        </mat-card-header>
+  <mat-card 
+  *ngIf="loaded"
+  class="container" 
+  style="display: grid; grid-template-columns: 50% 50%;">
 
-        <mat-card-content>
-          <!--img typeof="file" src="{{get64base(cityTour.coverImage.data)}}" alt="{{cityTour.coverImage.altText}}"-->
-          <div class="wrapper">
-            <div id="one">
-              <img src="data:image/jpeg;base64,{{tour.coverImage!.data}}"
-                   alt="{{tour.coverImage!.altText}}" >
+      <div class="card-content" *ngFor="let tour of tours" style="margin: 20px auto;">
+        <mat-card class="card">
+
+          <mat-card-header>
+            <mat-card-title>{{tour.name}}</mat-card-title>
+            <mat-card-subtitle>{{tour.cities.join(', ') }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <!--img typeof="file" src="{{get64base(cityTour.coverImage.data)}}" alt="{{cityTour.coverImage.altText}}"-->
+            <div class="wrapper">
+              <div id="one">
+                <img src="data:image/jpeg;base64,{{tour.coverImage!.data}}" alt="{{tour.coverImage!.altText}}">
+              </div>
             </div>
-          </div>
 
             <h1 class="center"> {{tour.price}} $ </h1>
 
-        </mat-card-content>
+          </mat-card-content>
 
-        <mat-card-actions  class="center">
-          <button (click)="openTour(tour)" mat-flat-button>See more</button>
-        </mat-card-actions>
+          <mat-card-actions class="center">
+            <button (click)="openTour(tour)" mat-flat-button>See more</button>
+          </mat-card-actions>
 
-      </mat-card>
-      <br>
-    </div>
+        </mat-card>
+        <br>
+      </div>
   </mat-card>
 </div>
-

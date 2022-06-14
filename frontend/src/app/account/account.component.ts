@@ -13,6 +13,9 @@ import {MyReservationsComponent} from "./my-reservations/my-reservations.compone
 import {AgentToursComponent} from "./agent-tours/agent-tours.component";
 import {AgentArticlesComponent} from "./agent-articles/agent-articles.component";
 import {GuideArticlesComponent} from "./guide-articles/guide-articles.component";
+import { BlogService } from '../services/blog.service';
+
+
 
 @Component({
   selector: 'app-account',
@@ -26,6 +29,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     public authService: AuthService,
+    public blogService: BlogService,
     public tourService: TourService,
     public dialog: MatDialog
   ) { }
@@ -95,7 +99,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   openArticlesByAgent() {
     this.subscriptions.push(
-      this.tourService.getArticlesByAgent().subscribe(
+      this.blogService.getArticlesByAgent().subscribe(
         (response : Article[] ) => {
           const dialogRef = this.dialog.open(AgentArticlesComponent, {
             width: '1000px',
@@ -173,12 +177,23 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   getReport() {
     this.tourService.getReport().subscribe(
-      data => this.downloadFile(data))//console.log(data),
-  }
+    (data: Blob) => {
+      var file = new Blob([data], { type: 'application/pdf' })
+      var fileURL = URL.createObjectURL(file);
 
-  downloadFile(data: Blob) {
-    const blob = new Blob([data], { type: 'text/csv' });
-    const url= window.URL.createObjectURL(blob);
-    window.open(url);
-  }
+// if you want to open PDF in new tab
+      window.open(fileURL); 
+      var a         = document.createElement('a');
+      a.href        = fileURL; 
+      a.target      = '_blank';
+      a.download    = 'bill.pdf';
+      document.body.appendChild(a);
+      a.click();
+    },
+    (error) => {
+      console.log('getPDF error: ',error);
+    }
+  );
+}
+
 }

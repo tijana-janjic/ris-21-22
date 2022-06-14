@@ -11,10 +11,15 @@ import {Country} from "../model/country";
 import {City} from "../model/city";
 import {NewCityTour} from "../create-city-tour/create-city-tour.component";
 import {Article} from "../model/article";
+import { AuthService } from './auth.service';
 
 const httpOptions = {
   headers: new HttpHeaders(),
   withCredentials: true
+}
+
+const reportHeader = {
+    responseType: 'blob' as 'json'
 }
 
 httpOptions.headers.append('Access-Control-Allow-Headers', '*');
@@ -32,7 +37,8 @@ export class TourService {
   private url: string = "http://localhost:9000/travelagency/travel"
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) { }
 
   // city tours
@@ -48,6 +54,15 @@ export class TourService {
   getCityToursOfCity(id: number) : Observable<CityTour[]>{
     return this.http.get<CityTour[]>(this.url + '/city/city-tours?id='+id)
   }
+
+  saveCityTour(model: NewCityTour) {
+    return this.http.post<CityTour>(this.url + '/create-city-tour', model)
+  }
+
+  deleteTour(id: number) {
+    return this.http.delete(this.url + '/delete-tour?id='+id)
+  }
+
 
   // tours
 
@@ -66,13 +81,17 @@ export class TourService {
       })
   }
 
-  saveCityTour(model: NewCityTour) {
-    return this.http.post<CityTour>(this.url + '/create-city-tour', model)
-  }
+  // blog
 
   saveArticle(model: any){
     return this.http.post<Article>(this.url + '/create-article', model)
   }
+
+  deleteArticle(id: number) {
+    return this.http.delete(this.url + '/delete-article?id='+id)
+  }
+
+  // other data
 
   getLandmarks(cityId: number) {
     return this.http.get<Landmark[]>(this.url + '/landmarks?id='+cityId)
@@ -90,13 +109,27 @@ export class TourService {
     return this.http.get<City[]>(this.url + '/cities?id='+countryId)
   }
 
+  // by agent
+  
   getToursByAgent() {
     return this.http.get<Tour[]>(this.url + '/agent/tours')
   }
 
+  getReport() {
+    let user = this.authService.getRoleCookie()
+    return this.http.get<any>(this.url + '/'+ user +'/monthly-report', reportHeader  )
+  }
+
+  // by guide
+
   getToursByGuide() {
     return this.http.get<Tour[]>(this.url + '/guide/tours')
   }
+
+  getGuideReport() {
+    return this.http.get<any>(this.url + '/agent/tours-report', reportHeader  )
+  }
+  // by client
 
   getReservations() {
     return this.http.get<Tour[]>(this.url + '/client/reservations')
@@ -106,19 +139,4 @@ export class TourService {
     return this.http.get<Tour[]>(this.url + '/client/trips')
   }
 
-  getArticlesByAgent() {
-    return this.http.get<Article[]>(this.url + '/agent/articles')
-  }
-
-  deleteTour(id: number) {
-    return this.http.delete(this.url + '/delete-tour?id='+id)
-  }
-
-  deleteArticle(id: number) {
-    return this.http.delete(this.url + '/delete-article?id='+id)
-  }
-
-  getReport() {
-    return this.http.get<Blob>(this.url + '/agent/tours-report')
-  }
 }

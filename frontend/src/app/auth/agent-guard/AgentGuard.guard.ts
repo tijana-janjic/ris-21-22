@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   ActivatedRouteSnapshot,
+  CanActivate,
   CanActivateChild,
   Router,
   RouterStateSnapshot,
@@ -14,16 +15,15 @@ import { AuthService } from 'src/app/services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AgentGuard implements CanActivateChild {
+export class AgentGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar
-  ) {}
+  ) { }
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+  canActivate(
+    route: ActivatedRouteSnapshot, state: RouterStateSnapshot
   ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>

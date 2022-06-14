@@ -11,7 +11,7 @@ import {NewTour} from "../create-tour/create-tour.component";
 })
 export class BlogService {
 
-  private url: string = "http://localhost:9000/travelagency/travel"
+  private url: string = "http://localhost:9000/travelagency/blog"
 
   constructor(
     private http: HttpClient
@@ -19,12 +19,16 @@ export class BlogService {
 
   getAllBlogArticles() : Observable<Article[]> {
     return this.http.get<Article[]>(
-      this.url + '/blog'
+      this.url 
     )
   }
 
   saveBlog(model: NewTour) {
     return this.http.post<Tour>(this.url + '/create-article', model)
+  }
+
+  getArticlesByAgent() {
+    return this.http.get<Article[]>(this.url + '/agent/articles')
   }
 
 }

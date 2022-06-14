@@ -10,58 +10,63 @@
 
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Enter name of tour</mat-label>
-            <input matInput placeholder="unique 13-digit number" [(ngModel)]="model.name" name="name"  required>
+            <input matInput [(ngModel)]="model.name" name="name" required>
           </mat-form-field>
           <br>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Start date</mat-label>
-            <input matInput [matDatepicker]="$any(startDatePicker)" [matDatepickerFilter]="filterOlder"  [(ngModel)]="model.startDate" name="startDate" required>
-            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker [startAt]="getMinDate()"></mat-datepicker>
+          <mat-form-field>
+
+            <mat-label>Date of realization</mat-label>
+            <mat-date-range-input 
+              [rangePicker]="rangeSelection" >
+              <input matStartDate placeholder="Start date"  [min]="getMinStartDate()"
+              [(ngModel)]="model.startDate" name="startDate" required >
+              <input matEndDate placeholder="End date"
+              [(ngModel)]="model.endDate" name="endDate" required >
+            </mat-date-range-input>
+            <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="rangeSelection"></mat-datepicker-toggle>
+            <mat-date-range-picker #rangeSelection></mat-date-range-picker>
           </mat-form-field>
+
           &nbsp;
-          <mat-form-field appearance="outline">
-            <mat-label>End date</mat-label>
-            <input matInput [matDatepicker]="$any(endDatePicker)" [matDatepickerFilter]="filterOlder"  [(ngModel)]="model.endDate" name="endDate" required>
-            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #endDatePicker [startAt]="getMinDate()"></mat-datepicker>
-          </mat-form-field>
-          &nbsp;
+
           <mat-form-field appearance="outline">
             <mat-label>Deadline for application</mat-label>
-            <input matInput [matDatepicker]="$any(deadlinePicker)" [matDatepickerFilter]="filterOlder"  [(ngModel)]="model.deadline" name="deadline" required>
+            <input matInput [matDatepicker]="$any(deadlinePicker)" [matDatepickerFilter]="filterOlder"
+              [(ngModel)]="model.deadline" name="deadline" required>
             <mat-datepicker-toggle matSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
-            <mat-datepicker #deadlinePicker [startAt]="getMinDate()"></mat-datepicker>
+            <mat-datepicker #deadlinePicker [startAt]="getMinStartDate()"></mat-datepicker>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Select tour type</mat-label>
-            <mat-select [(ngModel)]="model.tourType"  name="tourType" required>
+            <mat-select [(ngModel)]="model.tourType" name="tourType" required>
               <mat-option *ngFor="let type of
-              ['SUMMER_VACATION', 'WINTER_VACATION', 'WEEKEND', 'CRUISE_TRIP', 'ADVENTURE', 'OTHER']"
-                          value="{{type}}">{{type}}</mat-option>
+              ['SUMMER_VACATION', 'WINTER_VACATION', 'WEEKEND', 'CRUISE_TRIP', 'ADVENTURE', 'OTHER']" value="{{type}}">
+                {{type}}</mat-option>
 
             </mat-select>
           </mat-form-field>
           &nbsp;
           <mat-form-field appearance="outline">
             <mat-label>Select type of transport</mat-label>
-            <mat-select [(ngModel)]="model.transportationType"  name="tourType" required>
+            <mat-select [(ngModel)]="model.transportationType" name="tourType" required>
               <mat-option *ngFor="let type of ['BUS', 'PLANE', 'TRAIN', 'NONE']" value="{{type}}">{{type}}</mat-option>
             </mat-select>
           </mat-form-field>
           &nbsp;&nbsp;
           <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Price</mat-label>
-            <input matInput type="number" class="example-right-align" placeholder="0" name="price" min="1" [(ngModel)]="model.price" required>
+            <input matInput type="number" class="example-right-align" placeholder="0" name="price" min="1"
+              [(ngModel)]="model.price" required>
             <span matPrefix>$&nbsp;</span>
             <span matSuffix>.00</span>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Description</mat-label>
-            <textarea matInput [(ngModel)]="model.description"  name="description" requiredresizeToFitContent></textarea>
+            <textarea matInput [(ngModel)]="model.description" name="description" requiredresizeToFitContent></textarea>
           </mat-form-field>
           <br>
         </form>
@@ -83,17 +88,18 @@
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Select guide:</mat-label>
-            <mat-select [(ngModel)]="model.guideEmail"  name="guideId" required>
-              <mat-option *ngFor="let guide of guides" value="{{guide.email}}">{{guide.name+" "+guide.surname}}</mat-option>
+            <mat-select [(ngModel)]="model.guideEmail" name="guideId" required>
+              <mat-option *ngFor="let guide of guides" value="{{guide.email}}">{{guide.name+" "+guide.surname}}
+              </mat-option>
             </mat-select>
           </mat-form-field>
           <div>
             <h4>Select cover photo:</h4>
             <label class="custom-file-upload">
               <i>Browse...</i>
-              <input  type="file" accept="image/*" (change)="fileChange($event)"/>
+              <input type="file" accept="image/*" (change)="fileChange($event)" />
             </label>&nbsp;
-            <button mat-button (click)="upload()" > Upload </button>
+            <button mat-button (click)="upload()"> Upload </button>
           </div>
           <br>
         </form>

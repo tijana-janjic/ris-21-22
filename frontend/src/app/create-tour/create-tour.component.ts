@@ -104,13 +104,19 @@ export class CreateTourComponent implements OnInit, OnDestroy {
     console.log('ukupno...' + u + ' ugasio sam '+ i)
   }
 
-  getMinDate() {
+
+  getMinStartDate() {
+    return new Date();
+  }
+
+  getMinEndDate() {
     return new Date();
   }
 
   filterOlder: DateFilterFn<Date | null> = (date: Date | null) => {
-    return date != null && date >= this.getMinDate();
-  };
+    return date != null && date >= this.getMinStartDate();
+  }
+
 
   setCityTour(tour: CityTour) {
     const checked = this.cityTourMapChosen.get(tour)

@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tours" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fb58aea8-43c9-4548-be51-d724af78d496">
-	<parameter name="agencyName" class="java.lang.String"/>
+	<parameter name="agencyName"/>
+	<parameter name="guideFullName"/>
 	<parameter name="fixedSalary" class="java.lang.Double"/>
-	<parameter name="bonusPerTour" class="java.lang.Double"/>
-	<parameter name="agentFullName" class="java.lang.String"/>
+	<parameter name="percentagePerTour" class="java.lang.Double"/>
+	<parameter name="bonus" class="java.lang.Double"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="name" class="java.lang.String"/>
-	<field name="startDate" class="java.util.Date"/>
-	<field name="endDate" class="java.util.Date"/>
+	<field name="name"/>
+	<field name="startDate" class="java.time.LocalDateTime"/>
+	<field name="endDate" class="java.time.LocalDateTime"/>
 	<field name="price" class="java.lang.Double"/>
 	<variable name="salarySum" class="java.lang.Double">
-		<variableExpression><![CDATA[$P{fixedSalary} + ($P{bonusPerTour} * $V{PodaciOTuramaNaDan_COUNT} )]]></variableExpression>
-	</variable>
-	<variable name="bonus" class="java.lang.Double">
-		<variableExpression><![CDATA[$V{PodaciOTuramaNaDan_COUNT} * $P{bonusPerTour}]]></variableExpression>
+		<variableExpression><![CDATA[$P{fixedSalary} + $P{bonus}]]></variableExpression>
 	</variable>
 	<group name="PodaciOTuramaNaDan">
 		<groupHeader>
@@ -51,7 +49,7 @@
 						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="rtf"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
 				</textField>
 				<textField>
@@ -137,7 +135,7 @@
 			</textField>
 			<textField>
 				<reportElement x="0" y="32" width="180" height="39" uuid="d6ea6a91-b98a-44e6-b3bd-e30f48187765"/>
-				<textFieldExpression><![CDATA[$P{agentFullName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{guideFullName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -169,7 +167,7 @@
 			</staticText>
 			<textField>
 				<reportElement x="410" y="30" width="140" height="30" uuid="10bd5405-417c-43d2-959a-a264c2573d27"/>
-				<textFieldExpression><![CDATA[$V{bonus}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{bonus}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="310" y="60" width="240" height="1" uuid="b9c0b042-7506-4b19-87b2-24ce144065dc"/>

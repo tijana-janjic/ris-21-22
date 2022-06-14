@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Article} from "../model/article";
-import {CityTour} from "../model/city-tour";
-import {TourDialogComponent} from "../tours/tour-dialog/tour-dialog.component";
-import {ArticleDialogComponent} from "./article-dialog/article-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
-import {Subscription} from "rxjs";
-import {BlogService} from "../services/blog.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Article } from "../model/article";
+import { CityTour } from "../model/city-tour";
+import { TourDialogComponent } from "../tours/tour-dialog/tour-dialog.component";
+import { ArticleDialogComponent } from "./article-dialog/article-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { Subscription } from "rxjs";
+import { BlogService } from "../services/blog.service";
 
 
 @Component({
@@ -16,14 +16,16 @@ import {BlogService} from "../services/blog.service";
 export class BlogComponent implements OnInit, OnDestroy {
   blog: Article[] = []
   private articleMap = new Map<number, Article>()
+  loaded = false
 
   constructor(public articleService: BlogService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getAllBlog()
+    this.getBlog()
+
   }
 
-  subscriptions : Subscription[] = [];
+  subscriptions: Subscription[] = [];
 
   ngOnDestroy(): void {
     console.log('gasim se...')
@@ -34,16 +36,18 @@ export class BlogComponent implements OnInit, OnDestroy {
         i = i + 1
       x.unsubscribe();
     }
-    console.log('ukupno...' + u + ' ugasio sam '+ i)
+    console.log('ukupno...' + u + ' ugasio sam ' + i)
   }
 
-  getAllBlog() {
+  getBlog() {
     this.subscriptions.push(this.articleService.getAllBlogArticles().subscribe(
-      (response : Article[] ) => {
-        response.forEach( (x:Article) => {
+      (response: Article[]) => {
+        response.forEach((x: Article) => {
           console.log(JSON.stringify(x))
           this.articleMap.set(x.id, x)
-        })
+        }
+        )
+        this.loaded = true
         this.blog.push(...this.articleMap.values())
         console.log('unutar subscribe ' + JSON.stringify(this.articleMap))
       }

@@ -64,8 +64,10 @@ insert into user(email, password, role_id) values ('pera@mail.com', '$2a$12$vzvp
 insert into agent(email, birthdate, gender, name, surname, phone_number, bonus_per_tour, bonus_per_article, fixed_salary) values ('pera@mail.com', '2000-02-04', 'MALE', 'Pera', 'Peric', '0655827415', 50, 20, 800);
 
 insert into user(email, password, role_id) values ('zika@mail.com', '$2a$12$o6qmDahaUlnUmJBWc6ja1OETELTx.r.lMXsy2RgsbhoOqbbaVLxc6', 2);
-insert into guide(email, birthdate, gender, name, surname, phone_number, fixed_salary, percentage_per_tour) values ('zika@mail.com', '1995-06-07', 'MALE', 'Zika', 'Zikic', '0655827415', 600, 100);
+insert into guide(email, birthdate, gender, name, surname, phone_number, fixed_salary, percentage_per_tour) values ('zika@mail.com', '1995-06-07', 'MALE', 'Zika', 'Zikic', '0655827415', 600, 0.05);
 
+insert into user(email, password, role_id) values ('mika@mail.com', '$2a$12$o6qmDahaUlnUmJBWc6ja1OETELTx.r.lMXsy2RgsbhoOqbbaVLxc6', 3);
+insert into client(email, birthdate, gender, name, surname, phone_number) values ('mika@mail.com', '1999-06-07', 'MALE', 'Mika', 'Mikic', '0655827444');
 
 insert into file (alt_text, file, description)
 VALUES ('paris1',

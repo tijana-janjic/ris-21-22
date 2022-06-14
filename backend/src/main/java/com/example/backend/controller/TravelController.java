@@ -1,24 +1,29 @@
 package com.example.backend.controller;
 
 import com.example.backend.domain.person.Agent;
-import com.example.backend.domain.travel.*;
+import com.example.backend.domain.person.Guide;
+import com.example.backend.domain.travel.Article;
+import com.example.backend.domain.travel.CityTour;
+import com.example.backend.domain.travel.Tour;
+import com.example.backend.domain.travel.TourType;
 import com.example.backend.dto.*;
 import com.example.backend.mappers.TourMapper;
 import com.example.backend.security.TokenUtils;
 import com.example.backend.service.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -133,37 +138,6 @@ public class TravelController {
     }
 
 
-    // articles
-
-    @GetMapping("/blog")
-    public Set<ArticleDto> getAllArticles() {
-        List<Article> set = tourService.getAllArticles();
-        return set.stream().map(tourMapper::articleToDto).collect(Collectors.toSet());
-    }
-
-    @GetMapping("agent/articles")
-    public Set<ArticleDto> getAllArticlesByAgent(HttpServletRequest request){
-        String token = request.getCookies()[0].getValue();
-        String email = tokenUtils.getEmailFromToken(token);
-        List<Article> set = tourService.getAllArticlesByAgent(email);
-        return set.stream().map(tourMapper::articleToDto).collect(Collectors.toSet());
-    }
-
-    @PostMapping("/create-article")
-    public ResponseEntity<Long> addArticle(@RequestBody NewArticleDto articleDto, HttpServletRequest request){
-        String token = request.getCookies()[0].getValue();
-        String email = tokenUtils.getEmailFromToken(token);
-        Article article = articleService.addNewArticle(tourMapper.dtoToArticle(articleDto, email));
-        return new ResponseEntity<>(article.getId(), HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/delete-article")
-    public ResponseEntity<Long> deleteArticle(@RequestParam Long id){
-        Article article = tourService.getArticleById(id);
-        tourService.deleteArticle(article);
-        return new ResponseEntity<>(article.getId(), HttpStatus.OK);
-    }
-
 
 
     // location
@@ -193,40 +167,94 @@ public class TravelController {
 
 
     // report
-
-    @GetMapping("agent/tours-report")
-    public ResponseEntity<byte[]> showReport(HttpServletRequest request) throws JRException, IOException {
+    @GetMapping("agent/monthly-report")
+    public void showAgentReport(HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
         String token = request.getCookies()[0].getValue();
         String email = tokenUtils.getEmailFromToken(token);
-
+        System.out.println(email);
         Agent agent = accountService.getAgentByEmail(email);
-
+        System.out.println(agent);
         // dobavljanje podataka, postavljanje vrijednosti parametar, kompajliranje
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(tourService.getToursByAgent(email));
 
-        InputStream inputStream = this.getClass().getResourceAsStream("/resources/reports/tours.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+        String path = "/home/tijanajanjic/Documents/PMF/8. semestar/NWP/projekat/ris-21-22/backend/src/main/resources/reports/agent.jrxml";
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("agencyName", "Paper plane travel");
-        params.put("agentFullName", agent.getName() + " " + agent.getSurname());
-        params.put("fixedSalary", agent.getFixedSalary());
-        params.put("bonusPerTour", agent.getBonusPerTour());
+//        InputStream inputStream = this.getClass().getResourceAsStream(path);
+//        JasperReport jasperReport = new JasperReport(path);
+//        assert inputStream != null;
+//        inputStream.close();
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
-        assert inputStream != null;
-        inputStream.close();
+        // Load invoice jrxml template.
+        JasperDesign jasDesign = JRXmlLoader.load(path);
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasDesign);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("toursReport.pdf", "toursReport.pdf");
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        // Create parameters map.
+        // final Map<String, Object> parameters = parameters(invoice);
 
-        return ResponseEntity
-                .ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(JasperExportManager.exportReportToPdf(jasperPrint));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("agencyName", "Paper plane travel");
+        parameters.put("agentFullName", agent.getName() + " " + agent.getSurname());
+        parameters.put("fixedSalary", agent.getFixedSalary());
+        parameters.put("bonusPerTour", agent.getBonusPerTour());
+
+        response.setContentType("application/pdf");
+
+        ServletOutputStream out = response.getOutputStream();
+        // Render as PDF.
+        JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        JasperExportManager.exportReportToPdfStream(print, out);
+
+    }
+
+    @GetMapping("guide/monthly-report")
+    public void showGuideReport(HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
+        String token = request.getCookies()[0].getValue();
+        String email = tokenUtils.getEmailFromToken(token);
+        System.out.println(email);
+        Guide guide = accountService.getGuideByEmail(email);
+        System.out.println(guide);
+        // dobavljanje podataka, postavljanje vrijednosti parametar, kompajliranje
+        List<Tour> tours = tourService.getToursByGuide(email);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(tours);
+
+        String path = "/home/tijanajanjic/Documents/PMF/8. semestar/NWP/projekat/ris-21-22/backend/src/main/resources/reports/guide.jrxml";
+
+//        InputStream inputStream = this.getClass().getResourceAsStream(path);
+//        JasperReport jasperReport = new JasperReport(path);
+//        assert inputStream != null;
+//        inputStream.close();
+
+        // Load invoice jrxml template.
+        JasperDesign jasDesign = JRXmlLoader.load(path);
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasDesign);
+
+        // Create parameters map.
+        // final Map<String, Object> parameters = parameters(invoice);
+
+        System.out.println(tours);
+
+        double bonus = 0;
+        double percentage = guide.getPercentagePerTour();
+        for (Tour tour: tours ) {
+            bonus += tour.getPrice();
+        }
+        bonus *= percentage;
+
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("agencyName", "Paper plane travel");
+        parameters.put("guideFullName", guide.getName() + " " + guide.getSurname());
+        parameters.put("fixedSalary", guide.getFixedSalary());
+        parameters.put("percentagePerTour", percentage);
+        parameters.put("bonus", bonus);
+
+        response.setContentType("application/pdf");
+
+        ServletOutputStream out = response.getOutputStream();
+        // Render as PDF.
+        JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        JasperExportManager.exportReportToPdfStream(print, out);
+
     }
 
 

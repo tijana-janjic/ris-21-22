@@ -34,4 +34,15 @@ public class Person {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthdate=" + birthdate +
+                ", gender=" + gender +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }

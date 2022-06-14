@@ -22,4 +22,13 @@ public class Agent extends Person{
     @Column(name = "bonus_per_article", nullable = false)
     private Double bonusPerArticle;
 
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "fixedSalary=" + fixedSalary +
+                ", bonusPerTour=" + bonusPerTour +
+                ", bonusPerArticle=" + bonusPerArticle +
+                ", person= " + super.toString() +
+                '}';
+    }
 }
