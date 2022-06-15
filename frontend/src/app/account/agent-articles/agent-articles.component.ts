@@ -4,6 +4,7 @@ import {TourService} from "../../services/tour.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Subscription} from "rxjs";
 import {Article} from "../../model/article";
+import { BlogService } from 'src/app/services/blog.service';
 
 interface DialogData {
   articles: Article[]
@@ -21,6 +22,7 @@ export class AgentArticlesComponent implements OnInit {
 
   constructor(
     private tourService: TourService,
+    private blogService: BlogService,
     public dialogRef: MatDialogRef<AgentArticlesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
@@ -37,7 +39,7 @@ export class AgentArticlesComponent implements OnInit {
   }
 
   deleteArticle(id: number) {
-    this.s = this.tourService.deleteArticle(id).subscribe(
+    this.s = this.blogService.deleteArticle(id).subscribe(
       value => {
         this.dialogRef.close()
       }

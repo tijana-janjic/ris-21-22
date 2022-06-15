@@ -23,8 +23,15 @@ export class BlogService {
     )
   }
 
-  saveBlog(model: NewTour) {
-    return this.http.post<Tour>(this.url + '/create-article', model)
+
+  // blog
+
+  saveArticle(model: any){
+    return this.http.post<Article>(this.url + '/create-article', model)
+  }
+
+  deleteArticle(id: number) {
+    return this.http.delete(this.url + '/delete-article?id='+id)
   }
 
   getArticlesByAgent() {

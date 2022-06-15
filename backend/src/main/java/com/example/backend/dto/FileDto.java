@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Getter
 @Data
 public class FileDto implements Serializable {
-    private Long id;
     private String altText;
     private byte[] data;
 }

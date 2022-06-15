@@ -81,16 +81,6 @@ export class TourService {
       })
   }
 
-  // blog
-
-  saveArticle(model: any){
-    return this.http.post<Article>(this.url + '/create-article', model)
-  }
-
-  deleteArticle(id: number) {
-    return this.http.delete(this.url + '/delete-article?id='+id)
-  }
-
   // other data
 
   getLandmarks(cityId: number) {

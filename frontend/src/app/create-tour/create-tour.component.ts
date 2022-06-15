@@ -132,6 +132,23 @@ export class CreateTourComponent implements OnInit, OnDestroy {
     return checked
   }
 
+  isFilled() {
+    return this.model.name != '' &&
+    this.model.startDate != '' &&
+    this.model.endDate != '' &&
+    this.model.deadline != '' &&
+    this.model.price != 0 &&
+    this.model.maxPassengers > 0 &&
+    this.model.transportationType != '' &&
+    this.model.tourType != '' &&
+    this.model.guideEmail != -1 &&
+    this.model.description != '' &&
+    this.model.coverImage != {
+      altText : 'alt-text',
+      data : null
+    }
+  }
+
   submit(){
     const checked = this.getChecked()
 
@@ -161,6 +178,8 @@ export class CreateTourComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(this.files[i]);
       }
     }
+    console.log("fileChange()");
+
   }
 
   upload() {
@@ -168,6 +187,8 @@ export class CreateTourComponent implements OnInit, OnDestroy {
       altText: "alt text",
       data: this.file!.slice(22)
     }
+    console.log("upload()");
+    
   }
 
 }

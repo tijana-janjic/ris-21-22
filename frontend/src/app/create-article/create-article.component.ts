@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HomeComponent} from "../home/home.component";
 import {AuthService} from "../services/auth.service";
+import { BlogService } from '../services/blog.service';
 
 @Component({
   selector: 'app-create-article',
@@ -28,11 +29,12 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
   files: File[] = [];
   file: File | null = null;
   text: string = '';
-
+  loaded = false
 
   constructor(
     private authService: AuthService,
     private tourService: TourService,
+    private blogService: BlogService,
     private router: Router,
     private snackbar: MatSnackBar) { }
 
@@ -98,7 +100,7 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.subscriptions.push(this.tourService.saveArticle(
+    this.subscriptions.push(this.blogService.saveArticle(
       {
         title: this.title,
         cityId: this.cityId,
@@ -108,6 +110,7 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
     ).subscribe(
       (value) => {
         console.log(value)
+        this.loaded =true
         this.router.navigate(['/home'])
         this.snackbar.open("Successful!","ok", {
           duration: 3000,
