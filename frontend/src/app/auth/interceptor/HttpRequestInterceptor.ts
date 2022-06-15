@@ -54,9 +54,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       });
 
       of(err.message);
-    } else if (err.status == 403) {
-      let msg = 'Wrong email or password!';
-
+    } else if (err.status == 400 || err.status == 403) {
+      let msg = 'Error! Try again';
       this._snackBar.open(msg, 'Close', {
         duration: 3000,
         horizontalPosition: 'end',
